@@ -1,0 +1,30 @@
+{
+  "name": "shady-validator",
+  "version": "1.0.0",
+  "description": "JSON object validation module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest --coverage dist/test",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "lint": "eslint src/**/*.ts test/**/*.ts"
+  },
+  "keywords": [
+    "validation",
+    "types",
+    "object",
+    "json",
+    "schema"
+  ],
+  "author": "Alfredo Mungo",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.8",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "eslint": "^8.6.0",
+    "jest": "^27.4.7",
+    "typescript": "^4.5.4"
+  }
+}
