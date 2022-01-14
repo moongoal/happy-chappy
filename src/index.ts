@@ -3,6 +3,8 @@ import { ComplexTypeDef, SimpleTypeDef, TypeDef } from "./schema";
 import { validateSimple } from "./simple";
 import { isTypeDefSimple } from "./utils";
 
+export * from "./schema";
+
 export interface ValidatorFn {
     (obj: any): boolean
 }
