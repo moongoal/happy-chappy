@@ -1,6 +1,6 @@
 {
   "name": "happy-chappy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JSON object validation module",
   "main": "dist/src/index.js",
   "scripts": {
