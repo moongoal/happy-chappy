@@ -9,6 +9,13 @@ export const VALIDATE_ERROR_ARRAY_TYPEDEF_MISSING = "Array types require array d
 export const VALIDATE_ERROR_OBJECT_TYPEDEF_MISSING = "Object types require object definition.";
 export const VALIDATE_ERROR_ENUM_TYPEDEF_MISSING = "Enumeration types require enumeration definition.";
 
+/**
+ * Validate a value using a complex schema.
+ *
+ * @param obj The value to validate.
+ * @param schema The schema to validate against.
+ * @returns True if the value matches the schema, false if not.
+ */
 export function validateComplex(obj: any, schema: ComplexTypeDef): boolean {
     const {
         arrayDef,
@@ -69,9 +76,9 @@ export function validateComplex(obj: any, schema: ComplexTypeDef): boolean {
  * Validate a scalar with a complex type definition.
  * This function assumes the `scalarType` property to be defined.
  *
- * @param obj The object to test
- * @param schema The schema
- * @returns True if the object matches the schema, false if not.
+ * @param obj The value to validate.
+ * @param schema The schema to test against.
+ * @returns True if the value matches the schema, false if not.
  */
 function validateComplexScalar(obj: any, schema: ComplexTypeDef): boolean {
     const {
@@ -101,6 +108,13 @@ function validateComplexScalar(obj: any, schema: ComplexTypeDef): boolean {
     return validateSimple(obj, scalarType!) && scalarValidator();
 }
 
+/**
+ * Validate a string using a complex schema.
+ *
+ * @param obj The value to validate.
+ * @param schema The schema to validate against.
+ * @returns True if the value matches the schema, false if not.
+ */
 function validateComplexString(obj: any, options: StringOptions): boolean {
     const { matcher } = options;
 
@@ -119,6 +133,13 @@ function validateComplexString(obj: any, options: StringOptions): boolean {
     return true;
 }
 
+/**
+ * Validate a number using a complex schema.
+ *
+ * @param obj The value to validate.
+ * @param schema The schema to validate against.
+ * @returns True if the value matches the schema, false if not.
+ */
 function validateComplexNumber(obj: any, options: NumberOptions): boolean {
     const { max, min, value } = options;
 

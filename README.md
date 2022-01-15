@@ -12,9 +12,18 @@ const MY_OBJECT_SCHEMA = <ComplexTypeDef>{
     objectDef: {
         members: {
             firstField: "number",
-            secondField: { scalarType: "number", optional: true },
+
+            secondField: {
+                scalarType: "number",
+                optional: true
+            },
+
             thirdField: "string",
-            fourthField: { aggregation: Aggregation.Enumeration, enumOptions: [1, 2, 3, "four", 5] }
+
+            fourthField: {
+                aggregation: Aggregation.Enumeration,
+                enumOptions: [1, 2, 3, "four", 5]
+            }
         }
     }
 };
@@ -22,11 +31,13 @@ const MY_OBJECT_SCHEMA = <ComplexTypeDef>{
 const validateMyObject = createValidator(MY_OBJECT_SCHEMA);
 const myObject = { firstField: 5, thirdField: "hey", fourthField: "four" };
 
-expect(validateMyObject(myObject)).toBeTruthy();
+validateMyObject(myObject) === true;
 
 // Or alternatively
-expect(validate(myObject, MY_OBJECT_SCHEMA)).toBeTruthy();
+validate(myObject, MY_OBJECT_SCHEMA) === true;
 ```
+
+Many more examples available in the test folder.
 
 ## License
 

@@ -1,6 +1,13 @@
 import { ArrayTypeDef } from "./schema";
 import { validate } from ".";
 
+/**
+ * Validate an array.
+ *
+ * @param obj The value to validate.
+ * @param schema The schema to validate against.
+ * @returns True if the value matches the schema, false if not.
+ */
 export function validateArray(obj: any, schema: ArrayTypeDef): boolean {
     if(!Array.isArray(obj)) {
         return false;

@@ -1,5 +1,12 @@
 import { EnumOptions } from "./schema";
 
-export function validateEnum(obj: any, schema: EnumOptions): boolean {
-    return schema.includes(obj);
+/**
+ * Validate an enumerated value.
+ *
+ * @param obj The value to validate.
+ * @param options The enumeration options.
+ * @returns True if the value equals one of the enumeration options, false if not.
+ */
+export function validateEnum(obj: any, options: EnumOptions): boolean {
+    return options.includes(obj);
 }
