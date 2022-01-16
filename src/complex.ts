@@ -1,7 +1,7 @@
 import { validateArray } from "./array";
 import { validateEnum } from "./enum";
 import { validateObject } from "./object";
-import { Aggregation, ComplexTypeDef, NumberOptions, StringOptions } from "./schema";
+import { Aggregation, ComplexTypeDef, NumberTypeDef, StringTypeDef } from "./schema";
 import { validateSimple } from "./simple";
 
 export const VALIDATE_ERROR_SCALAR_TYPEDEF_MISSING = "Scalar types require scalar type definition.";
@@ -84,21 +84,23 @@ function validateComplexScalar(obj: any, schema: ComplexTypeDef): boolean {
     const {
         scalarType,
         stringOptions,
-        numberOptions
+        numberOptions,
+        stringDef = stringOptions,
+        numberDef = numberOptions
     } = schema;
     let scalarValidator =() => true;
 
     switch(scalarType) {
     case "string":
-        if(stringOptions) {
-            scalarValidator = () => validateComplexString(obj, stringOptions);
+        if(stringDef) {
+            scalarValidator = () => validateComplexString(obj, stringDef);
         }
 
         break;
 
     case "number":
-        if(numberOptions) {
-            scalarValidator = () => validateComplexNumber(obj, numberOptions);
+        if(numberDef) {
+            scalarValidator = () => validateComplexNumber(obj, numberDef);
         }
 
         break;
@@ -115,8 +117,8 @@ function validateComplexScalar(obj: any, schema: ComplexTypeDef): boolean {
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-function validateComplexString(obj: any, options: StringOptions): boolean {
-    const { matcher } = options;
+function validateComplexString(obj: any, schema: StringTypeDef): boolean {
+    const { matcher } = schema;
 
     if(matcher) {
         if(typeof matcher === "string") {
@@ -140,8 +142,8 @@ function validateComplexString(obj: any, options: StringOptions): boolean {
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-function validateComplexNumber(obj: any, options: NumberOptions): boolean {
-    const { max, min, value } = options;
+function validateComplexNumber(obj: any, schema: NumberTypeDef): boolean {
+    const { max, min, value } = schema;
 
     if(
         (min !== undefined && obj < min)

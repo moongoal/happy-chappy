@@ -138,6 +138,8 @@ export interface StringMatcherFn {
 
 /**
  * String validation options.
+ *
+ * @deprecated The name of this type is on a path for deprecation, use `StringTypeDef` instead.
  */
 export interface StringOptions {
     /**
@@ -147,7 +149,14 @@ export interface StringOptions {
 }
 
 /**
+ * String validation options.
+ */
+export type StringTypeDef = StringOptions;
+
+/**
  * Number validation options.
+ *
+ * @deprecated The name of this type is on a path for deprecation, use `NumberTypeDef` instead.
  */
 export interface NumberOptions {
     /**
@@ -165,6 +174,11 @@ export interface NumberOptions {
      */
     max?: number
 }
+
+/**
+ * Number validation options.
+ */
+export type NumberTypeDef = NumberOptions;
 
 /**
  * Enumeration validation options.
@@ -213,14 +227,28 @@ export interface ComplexTypeDef {
     enumOptions?: EnumOptions
 
     /**
-     * The string options if this type definition represents a string.
+     * The string type definition if this type definition represents a string.
+     *
+     * @deprecated This member is on a path for deprecation. Use the equivalent `stringDef` instead.
      */
-    stringOptions?: StringOptions
+    stringOptions?: StringTypeDef
 
     /**
-     * The number options if this type definition represents a number.
+     * The string type definition if this type definition represents a string.
      */
-    numberOptions?: NumberOptions
+    stringDef?: StringTypeDef
+
+    /**
+     * The number type definition if this type definition represents a number.
+     *
+     * @deprecated This member is on a path for deprecation. Use the equivalent `numberDef` instead.
+     */
+    numberOptions?: NumberTypeDef
+
+    /**
+     * The number type definition if this type definition represents a number.
+     */
+    numberDef?: NumberTypeDef
 }
 
 /**
