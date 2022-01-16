@@ -13,25 +13,36 @@ export function validateObject(obj: any, schema: ObjectTypeDef): boolean {
         return false;
     }
 
-    const { members, allowExtraMembers } = schema;
+    const {
+        members,
+        allowExtraMembers,
+        matcher = () => true
+    } = schema;
 
     const actualMembers = Object.keys(obj);
-    const expectedMembers = Object.keys(members);
+    let expectedMembers: string[] = [];
+    let membersValid = true;
 
-    if(allowExtraMembers !== true) {
-        const hasExtraMembers = !actualMembers.reduce(
-            (result, m) => result && expectedMembers.includes(m),
+    if(members) {
+        expectedMembers = Object.keys(members);
+
+        if(allowExtraMembers !== true) {
+            const hasExtraMembers = !actualMembers.reduce(
+                (result, m) => result && expectedMembers.includes(m),
+                true
+            );
+
+            if(hasExtraMembers) {
+                return false;
+            }
+        }
+
+        membersValid = expectedMembers.reduce<boolean>(
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            (result, m) => result && validate(obj[m], members[m]!),
             true
         );
-
-        if(hasExtraMembers) {
-            return false;
-        }
     }
 
-    return expectedMembers.reduce<boolean>(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        (result, m) => result && validate(obj[m], members[m]!),
-        true
-    );
+    return matcher(obj) && membersValid;
 }

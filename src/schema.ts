@@ -90,6 +90,17 @@ interface ObjectMemberMap {
 }
 
 /**
+ * An object matcher - used to validate an object against a specific structure.
+ */
+export interface ObjectMatcherFn {
+    /**
+     * @param v The object to validate.
+     * @return True if the object matches the required structure, false if not.
+     */
+    (v: any): boolean
+}
+
+/**
  * A type definition for an object.
  *
  * Here object doesn't mean "any JavaScript object", rather this indicates a serializable object.
@@ -98,7 +109,7 @@ export interface ObjectTypeDef {
     /**
      * The member type definitions.
      */
-    members: ObjectMemberMap
+    members?: ObjectMemberMap
 
     /**
      * Set this to true to ensure extra members in the object don't cause the validation
@@ -107,6 +118,11 @@ export interface ObjectTypeDef {
      * @default false
      */
     allowExtraMembers?: boolean
+
+    /**
+     * An object matcher - used to validate an object against a specific structure.
+     */
+    matcher?: ObjectMatcherFn
 }
 
 /**

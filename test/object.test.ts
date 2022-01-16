@@ -68,4 +68,16 @@ describe("Object type definitions", () => {
             )).toBeTruthy();
         });
     });
+
+    describe("An object with a matcher", () => {
+        const isMyObject = (x: any) => Object.keys(x).includes("myEntry");
+
+        it("should validate a valid value", () => {
+            validateObject({ myEntry: 0 }, { matcher: isMyObject });
+        });
+
+        it("should not validate an invalid value", () => {
+            validateObject({ myOtherEntry: 0 }, { matcher: isMyObject });
+        });
+    });
 });
