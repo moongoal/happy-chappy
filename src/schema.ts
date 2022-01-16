@@ -30,6 +30,28 @@ export enum Aggregation {
     Scalar
 }
 
+// /**
+//  * An array matcher - used to validate an array against a specific structure.
+//  */
+// export interface NumberMatcherFn {
+//     /**
+//      * @param n The number to validate.
+//      * @return True if the number matches the required structure, false if not.
+//      */
+//     (n: number): boolean
+// }
+
+/**
+ * An array matcher - used to validate an array against a specific structure.
+ */
+export interface ArrayMatcherFn {
+    /**
+     * @param v The array to validate.
+     * @return True if the array matches the required structure, false if not.
+     */
+    (v: any[]): boolean
+}
+
 /**
  * An array type definition.
  */
@@ -37,7 +59,7 @@ export interface ArrayTypeDef {
     /**
      * The type definition for the items contained in the array.
      */
-    itemType: TypeDef
+    itemType?: TypeDef
 
     /**
      * Specify this member if the array must be of a specific length.
@@ -53,6 +75,11 @@ export interface ArrayTypeDef {
      * Specify this member if the array must be of a specific maximum length.
      */
     maxLength?: number
+
+    /**
+     * An array matcher - used to validate an array against a specific structure.
+     */
+    matcher?: ArrayMatcherFn
 }
 
 /**

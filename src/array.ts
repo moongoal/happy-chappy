@@ -14,7 +14,13 @@ export function validateArray(obj: any, schema: ArrayTypeDef): boolean {
     }
 
     const arrayObj = obj as any[];
-    const { itemType, length, maxLength, minLength } = schema;
+    const {
+        itemType,
+        length,
+        maxLength,
+        minLength,
+        matcher = () => true
+    } = schema;
 
     if(
         (length !== undefined && arrayObj.length !== length)
@@ -24,8 +30,11 @@ export function validateArray(obj: any, schema: ArrayTypeDef): boolean {
         return false;
     }
 
-    return arrayObj.reduce(
-        (result, item) => result && validate(item, itemType),
-        true
-    );
+    const reducer = itemType
+        ? (v: any[]) => v.reduce(
+            (result, item) => result && validate(item, itemType),
+            true
+        ) : () => true;
+
+    return matcher(arrayObj) && reducer(arrayObj);
 }

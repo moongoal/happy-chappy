@@ -62,4 +62,21 @@ describe("Array type definitions", () => {
             expect(validateArray([1, 2, 3], { itemType: "boolean" })).toBeFalsy();
         });
     });
+
+    describe("An array with a matcher", () => {
+        const isMyTuple = (v: any[]) => (
+            v.length === 2
+            && typeof v[0] === "string"
+            && typeof v[1] === "number"
+            && Number.isInteger(v[1])
+        );
+
+        it("should match the given structure of a valid value", () => {
+            expect(validateArray(["Dummy", 5], { matcher: isMyTuple })).toBeTruthy();
+        });
+
+        it("should not match the given structure of a valid value", () => {
+            expect(validateArray([5, "Dummy"], { matcher: isMyTuple })).toBeFalsy();
+        });
+    });
 });
