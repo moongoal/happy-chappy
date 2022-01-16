@@ -83,6 +83,27 @@ Object specification can be customised by allowing extra memebrs not to be taken
 
 Enumerated values can be any string or number, matched with the strict equality operator.
 
+## Matchers
+
+Matchers allow more complex logic to be included in the validation model. For example:
+
+```typescript
+const isPersonWithAgeTuple = (v: any[]) => (
+    v.length === 2
+    && typeof v[0] === "string"
+    && typeof v[1] === "number"
+    && Number.isInteger(v[1])
+); // Enforces [Name: string, Age: integer]
+
+const schema: TypeDef = {
+    aggregation: Aggregation.Array,
+    arrayDef: { matcher: isPersonWithAgeTuple }
+};
+
+validate(["Dummy", 5], schema) === true;
+validate([5, "Dummy"], schema) === false;
+```
+
 ## License
 
 This package is licensed under the ISC license.
