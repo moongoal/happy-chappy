@@ -30,16 +30,16 @@ export enum Aggregation {
     Scalar
 }
 
-// /**
-//  * An array matcher - used to validate an array against a specific structure.
-//  */
-// export interface NumberMatcherFn {
-//     /**
-//      * @param n The number to validate.
-//      * @return True if the number matches the required structure, false if not.
-//      */
-//     (n: number): boolean
-// }
+/**
+ * An array matcher - used to validate an array against a specific structure.
+ */
+export interface NumberMatcherFn {
+    /**
+     * @param n The number to validate.
+     * @return True if the number matches the required structure, false if not.
+     */
+    (n: number): boolean
+}
 
 /**
  * An array matcher - used to validate an array against a specific structure.
@@ -137,7 +137,7 @@ export interface NumberOptions {
     /**
      * Set this member to ensure the value is exactly the one specified.
      */
-    value?: number
+    value?: number | NumberMatcherFn
 
     /**
      * Set this member to ensure the value is greater than the one specified.

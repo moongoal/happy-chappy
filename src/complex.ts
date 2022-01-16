@@ -144,11 +144,18 @@ function validateComplexNumber(obj: any, options: NumberOptions): boolean {
     const { max, min, value } = options;
 
     if(
-        (value !== undefined && obj !== value)
-        || (min !== undefined && obj < min)
+        (min !== undefined && obj < min)
         || (max !== undefined && obj > max)
     ) {
         return false;
+    }
+
+    if(value !== undefined) {
+        if(typeof value === "number") {
+            return obj === value;
+        } else {
+            return value(obj);
+        }
     }
 
     return true;

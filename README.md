@@ -49,7 +49,7 @@ Supported data types are:
     * Object
     * Enumeration
 
-Each of these can be further restricted using matchers or specific configuration.
+Each of these can be further restricted using matcher functions or specific configuration.
 
 ### String options
 

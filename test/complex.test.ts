@@ -264,6 +264,25 @@ describe("Complex type definitions", () => {
         });
     });
 
+    describe("A number with a matcher function as its value", () => {
+        const MY_NUMBER = 42;
+        const isMyNumber = (n: number) => n === MY_NUMBER;
+
+        it("should validate a valid value", () => {
+            expect(validateComplex(MY_NUMBER, {
+                scalarType: "number",
+                numberOptions: { value: isMyNumber }
+            })).toBeTruthy();
+        });
+
+        it("should not validate an invalid value", () => {
+            expect(validateComplex(MY_NUMBER + 1, {
+                scalarType: "number",
+                numberOptions: { value: isMyNumber }
+            })).toBeFalsy();
+        });
+    });
+
     describe("A scalar type with no scalar type definition", () => {
         it("should throw", () => {
             expect(() => validateComplex(0, {})).toThrowError(VALIDATE_ERROR_SCALAR_TYPEDEF_MISSING);
