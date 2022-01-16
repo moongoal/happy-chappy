@@ -42,12 +42,13 @@ Many more examples available in the test folder.
 ## Data types
 
 Supported data types are:
-    * String
-    * Number
-    * Boolean
-    * Array
-    * Object
-    * Enumeration
+
+* String
+* Number
+* Boolean
+* Array
+* Object
+* Enumeration
 
 Each of these can be further restricted using matcher functions or specific configuration.
 
@@ -74,10 +75,11 @@ Arrays can be further scoped by setting the following:
 * Exact length
 * Minimum length
 * Maximum length
+* Matcher function
 
 ### Object options
 
-Object specification can be customised by allowing extra memebrs not to be taken into account during validation.
+Object specification can be customised by allowing extra memebrs not to be taken into account during validation or by specifying a matcher function.
 
 ### Enumerations
 
@@ -103,6 +105,13 @@ const schema: TypeDef = {
 validate(["Dummy", 5], schema) === true;
 validate([5, "Dummy"], schema) === false;
 ```
+
+## Deprecation notice
+
+Please note `stringOptions` and `numberOptions` type definition members are deprecated and will be removed in the next major version along with
+their interfaces: `StringOptions` and `NumberOptions`.
+When updating the package, ensure you update any reference to the new naming convention: `stringDef`, `numberDef`, `StringTypeDef`
+and `NumberTypeDef` respectively.
 
 ## License
 
