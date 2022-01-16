@@ -63,7 +63,7 @@ Text string validation is supported using multiple types of matcher. A string ca
 
 Number validation options allow to restrict the available range as follows:
 
-* Exact value matching (checked with the strict equality operator)
+* Exact value matching (checked with the strict equality operator or matcher)
 * Minimum threshold
 * Maximum threshold
 
