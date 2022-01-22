@@ -1,6 +1,6 @@
 # happy-chappy
 
-Happy-chappy is a JSON object validator package for JavaScript and TypeScript.
+Happy-chappy is a compact, dependency free JSON object validator package for JavaScript and TypeScript.
 
 ## Usage
 
@@ -67,6 +67,8 @@ Number validation options allow to restrict the available range as follows:
 * Exact value matching (checked with the strict equality operator or matcher)
 * Minimum threshold
 * Maximum threshold
+* Integer vs floating point
+* Epsilon (custom floating point comparison constant)
 
 ### Array options
 
