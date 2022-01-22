@@ -117,7 +117,7 @@ function validateComplexScalar(obj: any, schema: ComplexTypeDef): boolean {
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-function validateComplexString(obj: any, schema: StringTypeDef): boolean {
+function validateComplexString(obj: string, schema: StringTypeDef): boolean {
     const { matcher } = schema;
 
     if(matcher) {
@@ -142,8 +142,18 @@ function validateComplexString(obj: any, schema: StringTypeDef): boolean {
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-function validateComplexNumber(obj: any, schema: NumberTypeDef): boolean {
-    const { max, min, value } = schema;
+function validateComplexNumber(obj: number, schema: NumberTypeDef): boolean {
+    const {
+        max,
+        min,
+        value,
+        isInteger = false,
+        epsilon = Number.EPSILON
+    } = schema;
+
+    if(isInteger && !Number.isInteger(obj)) {
+        return false;
+    }
 
     if(
         (min !== undefined && obj < min)
@@ -154,7 +164,9 @@ function validateComplexNumber(obj: any, schema: NumberTypeDef): boolean {
 
     if(value !== undefined) {
         if(typeof value === "number") {
-            return obj === value;
+            return Number.isInteger(value)
+                ? obj === value
+                : Math.abs(obj - value) < epsilon;
         } else {
             return value(obj);
         }

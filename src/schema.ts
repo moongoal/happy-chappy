@@ -173,6 +173,21 @@ export interface NumberOptions {
      * Set this member to ensure the value is smaller than the one specified.
      */
     max?: number
+
+    /**
+     * Set this member to specify if the value must be an integer or can be a decimal number.
+     *
+     * @default false
+     */
+    isInteger?: boolean
+
+    /**
+     * When the validating value is a floating point number and *value* is set, this defines the threshold for
+     * defining equality.
+     *
+     * @default Number.EPSILON
+     */
+    epsilon?: number
 }
 
 /**
