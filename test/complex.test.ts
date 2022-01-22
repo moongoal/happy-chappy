@@ -5,7 +5,7 @@ import {
     VALIDATE_ERROR_OBJECT_TYPEDEF_MISSING,
     VALIDATE_ERROR_SCALAR_TYPEDEF_MISSING
 } from "../src/complex";
-import { Aggregation } from "../src/schema";
+import { Aggregation, ComplexTypeDef } from "../src/schema";
 
 describe("Complex type definitions", () => {
     describe("A valid value", () => {
@@ -280,6 +280,49 @@ describe("Complex type definitions", () => {
                 scalarType: "number",
                 numberDef: { value: isMyNumber }
             })).toBeFalsy();
+        });
+    });
+
+    describe("When a number's isInteger option is specified", () => {
+        const schema: ComplexTypeDef = {
+            scalarType: "number",
+            numberDef: {
+                isInteger: true
+            }
+        };
+
+        describe("An integer value", () => {
+            it("should validate", () => {
+                expect(validateComplex(5, schema)).toBeTruthy();
+            });
+        });
+
+        describe("A floating point value", () => {
+            it("should not validate", () => {
+                expect(validateComplex(5.1, schema)).toBeFalsy();
+            });
+        });
+    });
+
+    describe("When a floating point value is validated against a floating point constant", () => {
+        const schema: ComplexTypeDef = {
+            scalarType: "number",
+            numberDef: {
+                value: 10.1,
+                epsilon: 1.1
+            }
+        };
+
+        describe("A similar enough value", () => {
+            it("shoud validate", () => {
+                expect(validateComplex(10.5, schema)).toBeTruthy();
+            });
+        });
+
+        describe("A different enough value", () => {
+            it("shoud not validate", () => {
+                expect(validateComplex(11.3, schema)).toBeFalsy();
+            });
         });
     });
 
