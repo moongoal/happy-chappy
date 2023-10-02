@@ -3,13 +3,14 @@ import { Schema, validate } from "../src";
 describe("Typing support", () => {
     describe("when an enum type is used", () => {
         enum MyEnum {
-            first, second
+            first = 1,
+            second = 2
         }
 
         const schema: Schema<MyEnum> = {
             enum: [
                 MyEnum.first,
-                MyEnum.second
+                2
             ]
         };
 

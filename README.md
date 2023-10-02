@@ -128,14 +128,15 @@ const MY_REQUEST_SCHEMA: Schema<MyRequest> = {
 
 ```typescript
 enum MyEnum {
-    first, second
+    first = 1,
+    second = 2
 }
 
 const MY_REQUEST_SCHEMA: Schema<MyEnum> = {
     enum: [
         MyEnum.first,
-        MyEnum.second,
-        MyEnum.third // TypeScript error!
+        2,
+        3 // TypeScript error!
     ]
 };
 ```
