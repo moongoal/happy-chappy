@@ -1,13 +1,13 @@
 # happy-chappy
 
-Happy-chappy is a compact, dependency free JSON object validator package for JavaScript and TypeScript.
+Happy-chappy is a compact, dependency-free JSON object validator package for JavaScript and TypeScript.
 
 ## Usage
 
 ```typescript
 import { Schema, createValidator, validate } from "happy-chappy";
 
-const MY_OBJECT_SCHEMA = <Schema>{
+const MY_OBJECT_SCHEMA: Schema = {
     object: {
         members: {
             firstField: "number",
@@ -105,7 +105,7 @@ validate(["Dummy", 5], schema) === true;
 validate([5, "Dummy"], schema) === false;
 ```
 
-### Typing aids
+## Typing Aids
 
 Version 2 brings in typing aids for objects and enumerations to streamline the schema ceration process. When you define a schema for an object or enumeration you can provide a type that will be used to assist in constraining object members and enumerated values.
 
@@ -152,9 +152,13 @@ const MY_REQUEST_SCHEMA: Schema<MyEnum> = {
 };
 ```
 
+## Changelog
+
+Read the changelog [here](./CHANGELOG.md).
+
 ## License
 
-This package is licensed under the ISC license.
+This package is licensed under the [ISC license](./LICENSE).
 
 ## Bugs and feedback
 
