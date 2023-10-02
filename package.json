@@ -26,7 +26,7 @@
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
     "eslint": "^8.50.0",
-    "eslint-config-moongoal": "^1.1.0",
+    "eslint-config-moongoal": "^1.2.0",
     "jest": "^27.4.7",
     "typescript": "^4.5.4"
   },
