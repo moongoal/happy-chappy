@@ -20,7 +20,7 @@ const MY_OBJECT_SCHEMA: Schema = {
             thirdField: "string",
 
             fourthField: {
-                enumOptions: [1, 2, 3, "four", 5]
+                enum: [1, 2, 3, "four", 5]
             }
         }
     }
@@ -132,7 +132,7 @@ enum MyEnum {
 }
 
 const MY_REQUEST_SCHEMA: Schema<MyEnum> = {
-    enumOptions: [
+    enum: [
         MyEnum.first,
         MyEnum.second,
         MyEnum.third // TypeScript error!
@@ -144,7 +144,7 @@ const MY_REQUEST_SCHEMA: Schema<MyEnum> = {
 type MyEnum = "first" | "second";
 
 const MY_REQUEST_SCHEMA: Schema<MyEnum> = {
-    enumOptions: [
+    enum: [
         "first",
         "second",
         "third" // TypeScript error!

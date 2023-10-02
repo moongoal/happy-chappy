@@ -60,7 +60,7 @@ export function validateComplex(obj: any, schema: Readonly<ComplexSchema>): bool
     }
 
     case "enum": {
-        const { enumOptions } = schema as EnumComplexSchema<unknown>;
+        const { enum: enumOptions } = schema as EnumComplexSchema<unknown>;
 
         // Rule disabled because aggregation type implies this member being present
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -82,7 +82,7 @@ function inferAggregation(schema: ComplexSchema): AggregationType {
     const keys = Object.keys(schema);
     const hasObject = keys.includes("object");
     const hasArray = keys.includes("array");
-    const hasEnumeration = keys.includes("enumOptions");
+    const hasEnumeration = keys.includes("enum");
     const hasString = keys.includes("string");
     const hasNumber = keys.includes("number");
     const hasBoolean = keys.includes("boolean");

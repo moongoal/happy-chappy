@@ -47,13 +47,13 @@ describe("Complex type definitions", () => {
 
     describe("A valid enumerated value", () => {
         it("should validate", () => {
-            expect(validateComplex(5, { enumOptions: [5] })).toBeTruthy();
+            expect(validateComplex(5, { enum: [5] })).toBeTruthy();
         });
     });
 
     describe("An invalid enumerated value", () => {
         it("should not validate", () => {
-            expect(validateComplex(5, { enumOptions: [] })).toBeFalsy();
+            expect(validateComplex(5, { enum: [] })).toBeFalsy();
         });
     });
 

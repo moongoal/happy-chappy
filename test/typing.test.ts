@@ -7,7 +7,7 @@ describe("Typing support", () => {
         }
 
         const schema: Schema<MyEnum> = {
-            enumOptions: [
+            enum: [
                 MyEnum.first,
                 MyEnum.second
             ]
@@ -22,7 +22,7 @@ describe("Typing support", () => {
         type MyEnum = "first" | "second" | 3;
 
         const schema: Schema<MyEnum> = {
-            enumOptions: [
+            enum: [
                 "first",
                 "second",
                 3

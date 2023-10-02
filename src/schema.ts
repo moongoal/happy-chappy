@@ -197,7 +197,7 @@ export interface EnumComplexSchema<MemberType> extends BaseComplexSchema {
     /**
      * The enumeration options if if the schema represents an enumeration.
      */
-    enumOptions?: EnumOptions<MemberType>
+    enum?: EnumOptions<MemberType>
 }
 
 export interface ScalarComplexSchema extends BaseComplexSchema {
