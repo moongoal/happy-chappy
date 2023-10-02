@@ -4,4 +4,5 @@
 
 * Renamed TypeDef -> Schema
 * Removed deprecated settings
-* `Aggregation` is now a string literal type
+* `Aggregation` is now a expressed as a string literal type
+* Deprecated `Aggregation` enumeration

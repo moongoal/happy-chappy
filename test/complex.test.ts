@@ -5,7 +5,7 @@ import {
     VALIDATE_ERROR_OBJECT_SCHEMA_MISSING,
     VALIDATE_ERROR_SCALAR_SCHEMA_MISSING
 } from "../src/complex";
-import { Aggregation, AggregationType, ComplexSchema } from "../src/schema";
+import { AggregationType, ComplexSchema } from "../src/schema";
 
 describe("Complex type definitions", () => {
     describe("A valid value", () => {
@@ -29,37 +29,37 @@ describe("Complex type definitions", () => {
 
     describe("A valid array", () => {
         it("should validate", () => {
-            expect(validateComplex([], { aggregation: Aggregation.Array, arrayDef: { itemType: "number" } })).toBeTruthy();
+            expect(validateComplex([], { aggregation: "array", arrayDef: { itemType: "number" } })).toBeTruthy();
         });
     });
 
     describe("An invalid array", () => {
         it("should not validate", () => {
-            expect(validateComplex(["a"], { aggregation: Aggregation.Array, arrayDef: { itemType: "number" } })).toBeFalsy();
+            expect(validateComplex(["a"], { aggregation: "array", arrayDef: { itemType: "number" } })).toBeFalsy();
         });
     });
 
     describe("A valid object", () => {
         it("should validate", () => {
-            expect(validateComplex({}, { aggregation: Aggregation.Object, objectDef: { members: {} } })).toBeTruthy();
+            expect(validateComplex({}, { aggregation: "object", objectDef: { members: {} } })).toBeTruthy();
         });
     });
 
     describe("An invalid object", () => {
         it("should not validate", () => {
-            expect(validateComplex({}, { aggregation: Aggregation.Object, objectDef: { members: { "a": "string" } } })).toBeFalsy();
+            expect(validateComplex({}, { aggregation: "object", objectDef: { members: { "a": "string" } } })).toBeFalsy();
         });
     });
 
     describe("A valid enumerated value", () => {
         it("should validate", () => {
-            expect(validateComplex(5, { aggregation: Aggregation.Enumeration, enumOptions: [5] })).toBeTruthy();
+            expect(validateComplex(5, { aggregation: "enum", enumOptions: [5] })).toBeTruthy();
         });
     });
 
     describe("An invalid enumerated value", () => {
         it("should not validate", () => {
-            expect(validateComplex(5, { aggregation: Aggregation.Enumeration, enumOptions: [] })).toBeFalsy();
+            expect(validateComplex(5, { aggregation: "enum", enumOptions: [] })).toBeFalsy();
         });
     });
 
@@ -334,19 +334,19 @@ describe("Complex type definitions", () => {
 
     describe("An object type with no object type definition", () => {
         it("should throw", () => {
-            expect(() => validateComplex({}, { aggregation: Aggregation.Object })).toThrowError(VALIDATE_ERROR_OBJECT_SCHEMA_MISSING);
+            expect(() => validateComplex({}, { aggregation: "object" })).toThrowError(VALIDATE_ERROR_OBJECT_SCHEMA_MISSING);
         });
     });
 
     describe("An array type with no array type definition", () => {
         it("should throw", () => {
-            expect(() => validateComplex({}, { aggregation: Aggregation.Array })).toThrowError(VALIDATE_ERROR_ARRAY_SCHEMA_MISSING);
+            expect(() => validateComplex({}, { aggregation: "array" })).toThrowError(VALIDATE_ERROR_ARRAY_SCHEMA_MISSING);
         });
     });
 
     describe("An enumeration type with no enumeration type definition", () => {
         it("should throw", () => {
-            expect(() => validateComplex({}, { aggregation: Aggregation.Enumeration })).toThrowError(VALIDATE_ERROR_ENUM_SCHEMA_MISSING);
+            expect(() => validateComplex({}, { aggregation: "enum" })).toThrowError(VALIDATE_ERROR_ENUM_SCHEMA_MISSING);
         });
     });
 

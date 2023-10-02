@@ -10,6 +10,9 @@ export type AggregationType = "array" | "object" | "enum" | "scalar";
 
 /**
  * An enumeration indicating the type of aggregation a type definition represents.
+ *
+ * @deprecated
+ * Aggregation enumeration is now on a deprecation path. Please use string literal types.
  */
 export enum Aggregation {
     /**
@@ -196,7 +199,7 @@ export type EnumOptions = (string | number)[];
  */
 export interface ComplexSchema {
     /**
-     * The scalar type if `aggregation` is set to `Aggregation.Scalar`.
+     * The scalar type if `aggregation` is set to `"scalar"`.
      */
     scalarType?: SimpleSchema
 
@@ -211,12 +214,12 @@ export interface ComplexSchema {
     nullable?: boolean
 
     /**
-     * The array type definition if `aggregation` is set to `Aggregation.Array`.
+     * The array type definition if `aggregation` is set to `"array"`.
      */
     arrayDef?: ArraySchema
 
     /**
-     * The object type definition if `aggregation` is set to `Aggregation.Object`.
+     * The object type definition if `aggregation` is set to `"object"`.
      */
     objectDef?: ObjectSchema
 
@@ -228,7 +231,7 @@ export interface ComplexSchema {
     aggregation?: AggregationType
 
     /**
-     * The enumeration options if `aggregation` is set to `Aggregation.Enumeration`.
+     * The enumeration options if `aggregation` is set to `"enum"`.
      */
     enumOptions?: EnumOptions
 

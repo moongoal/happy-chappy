@@ -8,7 +8,7 @@ Happy-chappy is a compact, dependency free JSON object validator package for Jav
 import { Aggregation, Schema, createValidator, validate } from "happy-chappy";
 
 const MY_OBJECT_SCHEMA = <Schema>{
-    aggregation: Aggregation.Object,
+    aggregation: "object",
     objectDef: {
         members: {
             firstField: "number",
@@ -21,7 +21,7 @@ const MY_OBJECT_SCHEMA = <Schema>{
             thirdField: "string",
 
             fourthField: {
-                aggregation: Aggregation.Enumeration,
+                aggregation: "enum",
                 enumOptions: [1, 2, 3, "four", 5]
             }
         }
@@ -100,7 +100,7 @@ const isPersonWithAgeTuple = (v: any[]) => (
 ); // Enforces [Name: string, Age: integer]
 
 const schema: Schema = {
-    aggregation: Aggregation.Array,
+    aggregation: "array",
     arrayDef: { matcher: isPersonWithAgeTuple }
 };
 

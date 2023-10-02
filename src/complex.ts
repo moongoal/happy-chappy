@@ -1,7 +1,7 @@
 import { validateArray } from "./array";
 import { validateEnum } from "./enum";
 import { validateObject } from "./object";
-import { Aggregation, ComplexSchema, NumberSchema, StringSchema } from "./schema";
+import { ComplexSchema, NumberSchema, StringSchema } from "./schema";
 import { validateSimple } from "./simple";
 
 export const VALIDATE_ERROR_SCALAR_SCHEMA_MISSING = "Scalar types require scalar type definition.";
@@ -21,13 +21,13 @@ export function validateComplex(obj: any, schema: ComplexSchema): boolean {
         arrayDef,
         nullable = false,
         optional = false,
-        aggregation = Aggregation.Scalar,
+        aggregation = "scalar",
         objectDef,
         enumOptions,
         scalarType
     } = schema;
 
-    if(aggregation === Aggregation.Scalar && !scalarType) {
+    if(aggregation === "scalar" && !scalarType) {
         throw new Error(VALIDATE_ERROR_SCALAR_SCHEMA_MISSING);
     }
 
