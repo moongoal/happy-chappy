@@ -137,11 +137,9 @@ export interface StringMatcherFn {
 }
 
 /**
- * String validation options.
- *
- * @deprecated The name of this type is on a path for deprecation, use `StringSchema` instead.
+ * String validation schema.
  */
-export interface StringOptions {
+export interface StringSchema {
     /**
      * A string matcher - used to validate a string against a specific structure.
      */
@@ -149,16 +147,9 @@ export interface StringOptions {
 }
 
 /**
- * String validation options.
+ * Number validation schema.
  */
-export type StringSchema = StringOptions;
-
-/**
- * Number validation options.
- *
- * @deprecated The name of this type is on a path for deprecation, use `NumberSchema` instead.
- */
-export interface NumberOptions {
+export interface NumberSchema {
     /**
      * Set this member to ensure the value is exactly the one specified.
      */
@@ -189,11 +180,6 @@ export interface NumberOptions {
      */
     epsilon?: number
 }
-
-/**
- * Number validation options.
- */
-export type NumberSchema = NumberOptions;
 
 /**
  * Enumeration validation options.
@@ -243,22 +229,8 @@ export interface ComplexSchema {
 
     /**
      * The string type definition if this type definition represents a string.
-     *
-     * @deprecated This member is on a path for deprecation. Use the equivalent `stringDef` instead.
-     */
-    stringOptions?: StringSchema
-
-    /**
-     * The string type definition if this type definition represents a string.
      */
     stringDef?: StringSchema
-
-    /**
-     * The number type definition if this type definition represents a number.
-     *
-     * @deprecated This member is on a path for deprecation. Use the equivalent `numberDef` instead.
-     */
-    numberOptions?: NumberSchema
 
     /**
      * The number type definition if this type definition represents a number.

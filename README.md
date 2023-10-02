@@ -108,13 +108,6 @@ validate(["Dummy", 5], schema) === true;
 validate([5, "Dummy"], schema) === false;
 ```
 
-## Deprecation notice
-
-Please note `stringOptions` and `numberOptions` type definition members are deprecated and will be removed in the next major version along with
-their interfaces: `StringOptions` and `NumberOptions`.
-When updating the package, ensure you update any reference to the new naming convention: `stringDef`, `numberDef`, `StringSchema`
-and `NumberSchema` respectively.
-
 ## License
 
 This package is licensed under the ISC license.

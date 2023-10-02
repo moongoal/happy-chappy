@@ -83,10 +83,8 @@ export function validateComplex(obj: any, schema: ComplexSchema): boolean {
 function validateComplexScalar(obj: any, schema: ComplexSchema): boolean {
     const {
         scalarType,
-        stringOptions,
-        numberOptions,
-        stringDef = stringOptions,
-        numberDef = numberOptions
+        stringDef,
+        numberDef
     } = schema;
     let scalarValidator =() => true;
 
