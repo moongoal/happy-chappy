@@ -1,8 +1,18 @@
 import { validateArray } from "./array";
 import { validateEnum } from "./enum";
 import { validateObject } from "./object";
-import { AggregationType, ArrayComplexSchema, ArraySchema, ComplexSchema, EnumComplexSchema, NumberSchema, ObjectComplexSchema, StringSchema } from "./schema";
 import { validateSimple } from "./simple";
+
+import {
+    AggregationType,
+    ArrayComplexSchema,
+    ComplexSchema,
+    EnumComplexSchema,
+    NumberSchema,
+    ObjectComplexSchema,
+    ScalarComplexSchema,
+    StringSchema
+} from "./schema";
 
 /**
  * Validate a value using a complex schema.
@@ -70,10 +80,11 @@ export function validateComplex(obj: any, schema: ComplexSchema): boolean {
  * @returns The inferred schema aggregation type.
  */
 function inferAggregation(schema: ComplexSchema): AggregationType {
-    const hasObject = schema.object !== undefined;
-    const hasArray = schema.array !== undefined;
-    const hasEnumeration = schema.enumOptions !== undefined;
-    const hasScalar = schema.scalar !== undefined;
+    const keys = Object.keys(schema);
+    const hasObject = keys.includes("object");
+    const hasArray = keys.includes("array");
+    const hasEnumeration = keys.includes("enumOptions");
+    const hasScalar = keys.includes("scalar");
     const aggregationMemberCount = +hasObject + +hasArray + +hasEnumeration + +hasScalar;
 
     if(aggregationMemberCount !== 1) {
@@ -103,7 +114,7 @@ function inferAggregation(schema: ComplexSchema): AggregationType {
  * @param schema The schema to test against.
  * @returns True if the value matches the schema, false if not.
  */
-function validateComplexScalar(obj: any, schema: ComplexSchema): boolean {
+function validateComplexScalar(obj: any, schema: ScalarComplexSchema): boolean {
     const {
         scalar,
         string,
