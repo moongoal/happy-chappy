@@ -20,7 +20,7 @@ import {
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function validateComplex(obj: any, schema: ComplexSchema): boolean {
+export function validateComplex(obj: any, schema: Readonly<ComplexSchema>): boolean {
     const {
         nullable = false,
         optional = false

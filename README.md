@@ -13,7 +13,7 @@ const MY_OBJECT_SCHEMA = <Schema>{
             firstField: "number",
 
             secondField: {
-                scalar: "number",
+                number: {},
                 optional: true
             },
 

@@ -17,7 +17,7 @@ export interface ValidatorFn {
      * @param obj The value to validate.
      * @returns True if the value matches the schema of the validator, false if not.
      */
-    (obj: any): boolean
+    (obj:any): boolean
 }
 
 /**
@@ -26,8 +26,8 @@ export interface ValidatorFn {
  * @param schema The schema the validator function will validate against.
  * @returns A new validator function for the given schema.
  */
-export function createValidator(schema: Schema): ValidatorFn {
-    return (obj: any): boolean => validate(obj, schema);
+export function createValidator(schema: Readonly<Schema>): ValidatorFn {
+    return (obj:any): boolean => validate(obj, schema);
 }
 
 /**
@@ -37,8 +37,8 @@ export function createValidator(schema: Schema): ValidatorFn {
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function validate(obj: any, schema: Schema): boolean {
+export function validate(obj: any, schema: Readonly<Schema>): boolean {
     return isSchemaSimple(schema)
-        ? validateSimple(obj, schema as SimpleSchema)
-        : validateComplex(obj, schema as ComplexSchema);
+        ? validateSimple(obj, schema as Readonly<SimpleSchema>)
+        : validateComplex(obj, schema as Readonly<ComplexSchema>);
 }

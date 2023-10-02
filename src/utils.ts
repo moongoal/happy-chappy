@@ -14,6 +14,6 @@ import { Schema } from "./schema";
  * @param schema The type definition to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function isSchemaSimple(schema: Schema): boolean {
+export function isSchemaSimple(schema: Readonly<Schema>): boolean {
     return typeof schema !== "object";
 }

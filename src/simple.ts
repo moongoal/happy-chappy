@@ -7,6 +7,6 @@ import { SimpleSchema } from "./schema";
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function validateSimple(obj: any, schema: SimpleSchema): boolean {
+export function validateSimple(obj: any, schema: Readonly<SimpleSchema>): boolean {
     return typeof obj === schema;
 }

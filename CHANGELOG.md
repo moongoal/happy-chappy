@@ -7,3 +7,4 @@
 * Type and aggregation form are now inferred from the schema; no need to specify directly
 * Simplified schema member naming: `arrayDef -> array, stringDef -> string` and so on
 * Added support for optional typing
+* Schema inputs are now readonly
