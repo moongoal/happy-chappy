@@ -1,4 +1,4 @@
-import { ArrayTypeDef } from "./schema";
+import { ArraySchema } from "./schema";
 import { validate } from ".";
 
 /**
@@ -8,7 +8,7 @@ import { validate } from ".";
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function validateArray(obj: any, schema: ArrayTypeDef): boolean {
+export function validateArray(obj: any, schema: ArraySchema): boolean {
     if(!Array.isArray(obj)) {
         return false;
     }

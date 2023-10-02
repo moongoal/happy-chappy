@@ -1,28 +1,26 @@
 # happy-chappy
 
-Happy-chappy is a compact, dependency free JSON object validator package for JavaScript and TypeScript.
+Happy-chappy is a compact, dependency-free JSON object validator package for JavaScript and TypeScript.
 
 ## Usage
 
 ```typescript
-import { Aggregation, TypeDef, createValidator, validate } from "happy-chappy";
+import { Schema, createValidator, validate } from "happy-chappy";
 
-const MY_OBJECT_SCHEMA = <TypeDef>{
-    aggregation: Aggregation.Object,
-    objectDef: {
+const MY_OBJECT_SCHEMA: Schema = {
+    object: {
         members: {
             firstField: "number",
 
             secondField: {
-                scalarType: "number",
+                number: {},
                 optional: true
             },
 
             thirdField: "string",
 
             fourthField: {
-                aggregation: Aggregation.Enumeration,
-                enumOptions: [1, 2, 3, "four", 5]
+                enum: [1, 2, 3, "four", 5]
             }
         }
     }
@@ -99,25 +97,68 @@ const isPersonWithAgeTuple = (v: any[]) => (
     && Number.isInteger(v[1])
 ); // Enforces [Name: string, Age: integer]
 
-const schema: TypeDef = {
-    aggregation: Aggregation.Array,
-    arrayDef: { matcher: isPersonWithAgeTuple }
+const schema: Schema = {
+    array: { matcher: isPersonWithAgeTuple }
 };
 
 validate(["Dummy", 5], schema) === true;
 validate([5, "Dummy"], schema) === false;
 ```
 
-## Deprecation notice
+## Typing Aids
 
-Please note `stringOptions` and `numberOptions` type definition members are deprecated and will be removed in the next major version along with
-their interfaces: `StringOptions` and `NumberOptions`.
-When updating the package, ensure you update any reference to the new naming convention: `stringDef`, `numberDef`, `StringTypeDef`
-and `NumberTypeDef` respectively.
+Version 2 brings in typing aids for objects and enumerations to streamline the schema ceration process. When you define a schema for an object or enumeration you can provide a type that will be used to assist in constraining object members and enumerated values.
+
+```typescript
+interface MyRequest {
+    a: number
+    b: string
+}
+
+const MY_REQUEST_SCHEMA: Schema<MyRequest> = {
+    object: {
+        members: {
+            a: { ... },
+            b: { ... },
+            c: { ... }, // TypeScript error!
+        }
+    }
+};
+```
+
+```typescript
+enum MyEnum {
+    first, second
+}
+
+const MY_REQUEST_SCHEMA: Schema<MyEnum> = {
+    enum: [
+        MyEnum.first,
+        MyEnum.second,
+        MyEnum.third // TypeScript error!
+    ]
+};
+```
+
+```typescript
+type MyEnum = "first" | "second";
+
+const MY_REQUEST_SCHEMA: Schema<MyEnum> = {
+    enum: [
+        "first",
+        "second",
+        "third" // TypeScript error!
+    ]
+};
+```
+
+## Changelog
+
+Read the changelog [here](./CHANGELOG.md).
 
 ## License
 
-This package is licensed under the ISC license.
+This package is licensed under the [ISC license](./LICENSE).
 
 ## Bugs and feedback
 

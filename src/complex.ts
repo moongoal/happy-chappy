@@ -1,13 +1,17 @@
 import { validateArray } from "./array";
 import { validateEnum } from "./enum";
 import { validateObject } from "./object";
-import { Aggregation, ComplexTypeDef, NumberTypeDef, StringTypeDef } from "./schema";
-import { validateSimple } from "./simple";
 
-export const VALIDATE_ERROR_SCALAR_TYPEDEF_MISSING = "Scalar types require scalar type definition.";
-export const VALIDATE_ERROR_ARRAY_TYPEDEF_MISSING = "Array types require array definition.";
-export const VALIDATE_ERROR_OBJECT_TYPEDEF_MISSING = "Object types require object definition.";
-export const VALIDATE_ERROR_ENUM_TYPEDEF_MISSING = "Enumeration types require enumeration definition.";
+import {
+    AggregationType,
+    ArrayComplexSchema,
+    ComplexSchema,
+    EnumComplexSchema,
+    NumberSchema,
+    ObjectComplexSchema,
+    ScalarComplexSchema,
+    StringSchema
+} from "./schema";
 
 /**
  * Validate a value using a complex schema.
@@ -16,20 +20,13 @@ export const VALIDATE_ERROR_ENUM_TYPEDEF_MISSING = "Enumeration types require en
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function validateComplex(obj: any, schema: ComplexTypeDef): boolean {
+export function validateComplex(obj: any, schema: Readonly<ComplexSchema>): boolean {
     const {
-        arrayDef,
         nullable = false,
-        optional = false,
-        aggregation = Aggregation.Scalar,
-        objectDef,
-        enumOptions,
-        scalarType
+        optional = false
     } = schema;
 
-    if(aggregation === Aggregation.Scalar && !scalarType) {
-        throw new Error(VALIDATE_ERROR_SCALAR_TYPEDEF_MISSING);
-    }
+    const aggregation = inferAggregation(schema);
 
     if(
         (nullable === false && obj === null)
@@ -46,68 +43,100 @@ export function validateComplex(obj: any, schema: ComplexTypeDef): boolean {
     }
 
     switch(aggregation) {
-    case Aggregation.Array:
-        if(!arrayDef) {
-            throw new Error(VALIDATE_ERROR_ARRAY_TYPEDEF_MISSING);
-        }
+    case "array": {
+        const { array } = schema as ArrayComplexSchema;
 
-        return validateArray(obj, arrayDef);
+        // Rule disabled because aggregation type implies this member being present
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return validateArray(obj, array!);
+    }
 
-    case Aggregation.Object:
-        if(!objectDef) {
-            throw new Error(VALIDATE_ERROR_OBJECT_TYPEDEF_MISSING);
-        }
+    case "object": {
+        const { object } = schema as ObjectComplexSchema<unknown>;
 
-        return validateObject(obj, objectDef);
+        // Rule disabled because aggregation type implies this member being present
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return validateObject(obj, object!);
+    }
 
-    case Aggregation.Enumeration:
-        if(!enumOptions) {
-            throw new Error(VALIDATE_ERROR_ENUM_TYPEDEF_MISSING);
-        }
+    case "enum": {
+        const { enum: enumOptions } = schema as EnumComplexSchema<unknown>;
 
-        return validateEnum(obj, enumOptions);
+        // Rule disabled because aggregation type implies this member being present
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return validateEnum(obj, enumOptions!);
+    }
 
-    case Aggregation.Scalar:
+    case "scalar":
         return validateComplexScalar(obj, schema);
     }
 }
 
 /**
+ * Infer the aggregation type the schema represents.
+ *
+ * @param schema The schema to infer the aggregation type for.
+ * @returns The inferred schema aggregation type.
+ */
+function inferAggregation(schema: ComplexSchema): AggregationType {
+    const keys = Object.keys(schema);
+    const hasObject = keys.includes("object");
+    const hasArray = keys.includes("array");
+    const hasEnumeration = keys.includes("enum");
+    const hasString = keys.includes("string");
+    const hasNumber = keys.includes("number");
+    const hasBoolean = keys.includes("boolean");
+    const aggregationMemberCount = +hasObject + +hasArray + +hasEnumeration + +hasString + +hasNumber + +hasBoolean;
+
+    if(aggregationMemberCount !== 1) {
+        throw new Error("Schema only allows one of \"array\", \"object\", \"enum\", \"string\", \"number\", \"boolean\" members to be defined.");
+    }
+
+    if(hasString || hasNumber || hasBoolean) {
+        return "scalar";
+    }
+
+    if(hasObject) {
+        return "object";
+    }
+
+    if(hasArray) {
+        return "array";
+    }
+
+    return "enum";
+}
+
+/**
  * Validate a scalar with a complex type definition.
- * This function assumes the `scalarType` property to be defined.
+ * This function assumes the `scalar` property to be defined.
  *
  * @param obj The value to validate.
  * @param schema The schema to test against.
  * @returns True if the value matches the schema, false if not.
  */
-function validateComplexScalar(obj: any, schema: ComplexTypeDef): boolean {
+function validateComplexScalar(obj: any, schema: ScalarComplexSchema): boolean {
     const {
-        scalarType,
-        stringOptions,
-        numberOptions,
-        stringDef = stringOptions,
-        numberDef = numberOptions
+        string,
+        number,
+        boolean
     } = schema;
-    let scalarValidator =() => true;
+    let scalarValidator = () => true;
 
-    switch(scalarType) {
-    case "string":
-        if(stringDef) {
-            scalarValidator = () => validateComplexString(obj, stringDef);
-        }
+    if(string) {
+        scalarValidator = () => (typeof obj === "string" && validateComplexString(obj, string));
+    }
 
-        break;
+    if(number) {
+        scalarValidator = () => (typeof obj === "number" && validateComplexNumber(obj, number));
+    }
 
-    case "number":
-        if(numberDef) {
-            scalarValidator = () => validateComplexNumber(obj, numberDef);
-        }
-
-        break;
+    if(boolean) {
+        scalarValidator = () => (typeof obj === "boolean");
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return validateSimple(obj, scalarType!) && scalarValidator();
+    return scalarValidator();
 }
 
 /**
@@ -117,7 +146,7 @@ function validateComplexScalar(obj: any, schema: ComplexTypeDef): boolean {
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-function validateComplexString(obj: string, schema: StringTypeDef): boolean {
+function validateComplexString(obj: string, schema: StringSchema): boolean {
     const { matcher } = schema;
 
     if(matcher) {
@@ -142,7 +171,7 @@ function validateComplexString(obj: string, schema: StringTypeDef): boolean {
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-function validateComplexNumber(obj: number, schema: NumberTypeDef): boolean {
+function validateComplexNumber(obj: number, schema: NumberSchema): boolean {
     const {
         max,
         min,

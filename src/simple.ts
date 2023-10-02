@@ -1,4 +1,4 @@
-import { SimpleTypeDef } from "./schema";
+import { SimpleSchema } from "./schema";
 
 /**
  * Validate a value using a simple schema.
@@ -7,6 +7,6 @@ import { SimpleTypeDef } from "./schema";
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function validateSimple(obj: any, schema: SimpleTypeDef): boolean {
+export function validateSimple(obj: any, schema: Readonly<SimpleSchema>): boolean {
     return typeof obj === schema;
 }

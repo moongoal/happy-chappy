@@ -1,34 +1,12 @@
 /**
  * A simple type definition.
  */
-export type SimpleTypeDef = "string" | "number" | "boolean";
+export type SimpleSchema = "string" | "number" | "boolean";
 
 /**
  * An enumeration indicating the type of aggregation a type definition represents.
  */
-export enum Aggregation {
-    /**
-     * An array aggregation requries the `arrayDef` member in a complex type definition.
-     */
-    Array,
-
-    /**
-     * An object aggregation requries the `objectDef` member in a complex type definition.
-     */
-    Object,
-
-    /**
-     * An enumeration aggregation requries the `enumOptions` member in a complex type definition.
-     */
-    Enumeration,
-
-    /**
-     * This option specifies the type definition is not an aggregation but represents a scalar.
-     * The `scalarType` member in a complex type definition is required if the `aggregation` member
-     * is set to this value.
-     */
-    Scalar
-}
+export type AggregationType = "array" | "object" | "enum" | "scalar";
 
 /**
  * An array matcher - used to validate an array against a specific structure.
@@ -55,11 +33,11 @@ export interface ArrayMatcherFn {
 /**
  * An array type definition.
  */
-export interface ArrayTypeDef {
+export interface ArraySchema {
     /**
      * The type definition for the items contained in the array.
      */
-    itemType?: TypeDef
+    itemType?: Schema
 
     /**
      * Specify this member if the array must be of a specific length.
@@ -83,10 +61,17 @@ export interface ArrayTypeDef {
 }
 
 /**
+ * The default member type used when no member type is explicitly provided.
+ */
+export type DefaultMemberType = {
+    [name: string | number]: Schema
+} | string | number;
+
+/**
  * A map of member type definitions for a serializable object.
  */
-interface ObjectMemberMap {
-    [name: string | number]: TypeDef
+type ObjectMemberMap<MemberType = DefaultMemberType> = {
+    [name in keyof MemberType]: Schema
 }
 
 /**
@@ -105,11 +90,11 @@ export interface ObjectMatcherFn {
  *
  * Here object doesn't mean "any JavaScript object", rather this indicates a serializable object.
  */
-export interface ObjectTypeDef {
+export interface ObjectSchema<MemberType = DefaultMemberType> {
     /**
      * The member type definitions.
      */
-    members?: ObjectMemberMap
+    members?: ObjectMemberMap<MemberType>
 
     /**
      * Set this to true to ensure extra members in the object don't cause the validation
@@ -137,11 +122,9 @@ export interface StringMatcherFn {
 }
 
 /**
- * String validation options.
- *
- * @deprecated The name of this type is on a path for deprecation, use `StringTypeDef` instead.
+ * String validation schema.
  */
-export interface StringOptions {
+export interface StringSchema {
     /**
      * A string matcher - used to validate a string against a specific structure.
      */
@@ -149,16 +132,9 @@ export interface StringOptions {
 }
 
 /**
- * String validation options.
+ * Number validation schema.
  */
-export type StringTypeDef = StringOptions;
-
-/**
- * Number validation options.
- *
- * @deprecated The name of this type is on a path for deprecation, use `NumberTypeDef` instead.
- */
-export interface NumberOptions {
+export interface NumberSchema {
     /**
      * Set this member to ensure the value is exactly the one specified.
      */
@@ -191,24 +167,14 @@ export interface NumberOptions {
 }
 
 /**
- * Number validation options.
- */
-export type NumberTypeDef = NumberOptions;
-
-/**
  * Enumeration validation options.
  */
-export type EnumOptions = (string | number)[];
+export type EnumOptions<MemberType = string | number> = readonly (MemberType)[];
 
 /**
- * A complex type definition.
+ * Base common schema.
  */
-export interface ComplexTypeDef {
-    /**
-     * The scalar type if `aggregation` is set to `Aggregation.Scalar`.
-     */
-    scalarType?: SimpleTypeDef
-
+export interface BaseComplexSchema {
     /**
      * Set this member to true to make the value optional (either defined or undefined or not present).
      */
@@ -218,55 +184,58 @@ export interface ComplexTypeDef {
      * Set this member to true to make the value nullable.
      */
     nullable?: boolean
-
-    /**
-     * The array type definition if `aggregation` is set to `Aggregation.Array`.
-     */
-    arrayDef?: ArrayTypeDef
-
-    /**
-     * The object type definition if `aggregation` is set to `Aggregation.Object`.
-     */
-    objectDef?: ObjectTypeDef
-
-    /**
-     * The aggregation type.
-     *
-     * @default Aggregation.Scalar
-     */
-    aggregation?: Aggregation
-
-    /**
-     * The enumeration options if `aggregation` is set to `Aggregation.Enumeration`.
-     */
-    enumOptions?: EnumOptions
-
-    /**
-     * The string type definition if this type definition represents a string.
-     *
-     * @deprecated This member is on a path for deprecation. Use the equivalent `stringDef` instead.
-     */
-    stringOptions?: StringTypeDef
-
-    /**
-     * The string type definition if this type definition represents a string.
-     */
-    stringDef?: StringTypeDef
-
-    /**
-     * The number type definition if this type definition represents a number.
-     *
-     * @deprecated This member is on a path for deprecation. Use the equivalent `numberDef` instead.
-     */
-    numberOptions?: NumberTypeDef
-
-    /**
-     * The number type definition if this type definition represents a number.
-     */
-    numberDef?: NumberTypeDef
 }
+
+export interface ArrayComplexSchema extends BaseComplexSchema {
+    /**
+     * The array type definition if the schema represents an array.
+     */
+    array?: ArraySchema
+}
+
+export interface ObjectComplexSchema<MemberType> extends BaseComplexSchema {
+    /**
+     * The object type definition if if the schema represents an object.
+     */
+    object?: ObjectSchema<MemberType>
+}
+
+export interface EnumComplexSchema<MemberType> extends BaseComplexSchema {
+    /**
+     * The enumeration options if if the schema represents an enumeration.
+     */
+    enum?: EnumOptions<MemberType>
+}
+
+export interface ScalarComplexSchema extends BaseComplexSchema {
+    /**
+     * The string type definition if this type definition represents a string.
+     */
+    string?: StringSchema
+
+    /**
+     * The number type definition if this type definition represents a number.
+     */
+    number?: NumberSchema
+
+    /**
+     * The boolean type definition if this type definition represents a boolean.
+     */
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    boolean?: {}
+}
+
+/**
+ * A complex type definition.
+ */
+export type ComplexSchema<MemberType = DefaultMemberType> = (
+    ScalarComplexSchema
+    | EnumComplexSchema<MemberType>
+    | ObjectComplexSchema<MemberType>
+    | ArrayComplexSchema
+);
 
 /**
  * A type definition or schema.
  */
-export type TypeDef = SimpleTypeDef | ComplexTypeDef;
+export type Schema<MemberType = DefaultMemberType> = SimpleSchema | ComplexSchema<MemberType>;

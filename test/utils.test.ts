@@ -1,21 +1,21 @@
-import { SimpleTypeDef } from "../src/schema";
-import { isTypeDefSimple } from "../src/utils";
+import { SimpleSchema } from "../src/schema";
+import { isSchemaSimple } from "../src/utils";
 
 describe("Utility functions", () => {
-    describe("isTypeDefSimple", () => {
+    describe("isSchemaSimple", () => {
         describe("A simple type definition", () => {
-            test.each<SimpleTypeDef>([
+            test.each<SimpleSchema>([
                 "string",
                 "boolean",
                 "number"
             ])("%s should pass the test", type => {
-                expect(isTypeDefSimple(type)).toBeTruthy();
+                expect(isSchemaSimple(type)).toBeTruthy();
             });
         });
 
         describe("A complex type definition", () => {
             it("should not pass the test", () => {
-                expect(isTypeDefSimple({})).toBeFalsy();
+                expect(isSchemaSimple({})).toBeFalsy();
             });
         });
     });

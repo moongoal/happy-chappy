@@ -1,4 +1,4 @@
-import { TypeDef } from "./schema";
+import { Schema } from "./schema";
 
 /**
  * Check whether a type definition is simple or complex.
@@ -8,12 +8,12 @@ import { TypeDef } from "./schema";
  * hierarchical structure representing the structure of a model object and can be expressed
  * as either a simple or complex type definition.
  *
- * @see SimpleTypeDef
- * @see ComplexTypeDef
+ * @see SimpleSchema
+ * @see ComplexSchema
  *
  * @param schema The type definition to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function isTypeDefSimple(schema: TypeDef): boolean {
+export function isSchemaSimple(schema: Readonly<Schema>): boolean {
     return typeof schema !== "object";
 }
