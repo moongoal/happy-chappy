@@ -63,8 +63,8 @@ export interface ArraySchema {
 /**
  * A map of member type definitions for a serializable object.
  */
-interface ObjectMemberMap {
-    [name: string | number]: Schema
+type ObjectMemberMap<MemberType = unknown> = {
+    [name in keyof MemberType]: Schema
 }
 
 /**
@@ -83,11 +83,11 @@ export interface ObjectMatcherFn {
  *
  * Here object doesn't mean "any JavaScript object", rather this indicates a serializable object.
  */
-export interface ObjectSchema {
+export interface ObjectSchema<MemberType = unknown> {
     /**
      * The member type definitions.
      */
-    members?: ObjectMemberMap
+    members?: ObjectMemberMap<MemberType>
 
     /**
      * Set this to true to ensure extra members in the object don't cause the validation
@@ -162,12 +162,12 @@ export interface NumberSchema {
 /**
  * Enumeration validation options.
  */
-export type EnumOptions = (string | number)[];
+export type EnumOptions<MemberType = string | number> = (MemberType)[];
 
 /**
  * A complex type definition.
  */
-export interface ComplexSchema {
+export interface ComplexSchema<MemberType = unknown> {
     /**
      * The scalar type, if the schema represents a scalar.
      */
@@ -191,12 +191,12 @@ export interface ComplexSchema {
     /**
      * The object type definition if if the schema represents an object.
      */
-    object?: ObjectSchema
+    object?: ObjectSchema<MemberType>
 
     /**
      * The enumeration options if if the schema represents an enumeration.
      */
-    enumOptions?: EnumOptions
+    enumOptions?: EnumOptions<MemberType>
 
     /**
      * The string type definition if this type definition represents a string.

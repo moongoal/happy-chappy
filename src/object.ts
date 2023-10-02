@@ -8,7 +8,7 @@ import { validate } from ".";
  * @param schema The object definition to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function validateObject(obj: any, schema: ObjectSchema): boolean {
+export function validateObject<MemberType>(obj: any, schema: ObjectSchema<MemberType>): boolean {
     if(typeof obj !== "object" || obj.constructor !== Object) {
         return false;
     }
@@ -20,15 +20,15 @@ export function validateObject(obj: any, schema: ObjectSchema): boolean {
     } = schema;
 
     const actualMembers = Object.keys(obj);
-    let expectedMembers: string[] = [];
+    let expectedMembers: MemberType[] = [];
     let membersValid = true;
 
     if(members) {
-        expectedMembers = Object.keys(members);
+        expectedMembers = Object.keys(members) as unknown as MemberType[];
 
         if(allowExtraMembers !== true) {
             const hasExtraMembers = !actualMembers.reduce(
-                (result, m) => result && expectedMembers.includes(m),
+                (result, m) => result && expectedMembers.includes(m as unknown as MemberType),
                 true
             );
 

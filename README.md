@@ -105,6 +105,53 @@ validate(["Dummy", 5], schema) === true;
 validate([5, "Dummy"], schema) === false;
 ```
 
+### Typing aids
+
+Version 2 brings in typing aids for objects and enumerations to streamline the schema ceration process. When you define a schema for an object or enumeration you can provide a type that will be used to assist in constraining object members and enumerated values.
+
+```typescript
+interface MyRequest {
+    a: number
+    b: string
+}
+
+const MY_REQUEST_SCHEMA: Schema<MyRequest> = {
+    object: {
+        members: {
+            a: { ... },
+            c: { ... },
+            d: { ... }, // TypeScript error!
+        }
+    }
+};
+```
+
+```typescript
+enum MyEnum {
+    first, second
+}
+
+const MY_REQUEST_SCHEMA: Schema<MyEnum> = {
+    enumOptions: [
+        MyEnum.first,
+        MyEnum.second,
+        MyEnum.third // TypeScript error!
+    ]
+};
+```
+
+```typescript
+type MyEnum = "first" | "second" | "third";
+
+const MY_REQUEST_SCHEMA: Schema<MyEnum> = {
+    enumOptions: [
+        "first",
+        "second",
+        "third" // TypeScript error!
+    ]
+};
+```
+
 ## License
 
 This package is licensed under the ISC license.
