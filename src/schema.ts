@@ -61,9 +61,16 @@ export interface ArraySchema {
 }
 
 /**
+ * The default member type used when no member type is explicitly provided.
+ */
+export type DefaultMemberType = {
+    [name: string | number]: Schema
+} | string | number;
+
+/**
  * A map of member type definitions for a serializable object.
  */
-type ObjectMemberMap<MemberType = unknown> = {
+type ObjectMemberMap<MemberType = DefaultMemberType> = {
     [name in keyof MemberType]: Schema
 }
 
@@ -83,7 +90,7 @@ export interface ObjectMatcherFn {
  *
  * Here object doesn't mean "any JavaScript object", rather this indicates a serializable object.
  */
-export interface ObjectSchema<MemberType = unknown> {
+export interface ObjectSchema<MemberType = DefaultMemberType> {
     /**
      * The member type definitions.
      */
@@ -221,7 +228,7 @@ export interface ScalarComplexSchema extends BaseComplexSchema {
 /**
  * A complex type definition.
  */
-export type ComplexSchema<MemberType = unknown> = (
+export type ComplexSchema<MemberType = DefaultMemberType> = (
     ScalarComplexSchema
     | EnumComplexSchema<MemberType>
     | ObjectComplexSchema<MemberType>
@@ -231,4 +238,4 @@ export type ComplexSchema<MemberType = unknown> = (
 /**
  * A type definition or schema.
  */
-export type Schema<MemberType = unknown> = SimpleSchema | ComplexSchema<MemberType>;
+export type Schema<MemberType = DefaultMemberType> = SimpleSchema | ComplexSchema<MemberType>;
