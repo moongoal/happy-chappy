@@ -9,36 +9,6 @@ export type SimpleSchema = "string" | "number" | "boolean";
 export type AggregationType = "array" | "object" | "enum" | "scalar";
 
 /**
- * An enumeration indicating the type of aggregation a type definition represents.
- *
- * @deprecated
- * Aggregation enumeration is now on a deprecation path. Please use string literal types.
- */
-export enum Aggregation {
-    /**
-     * An array aggregation requries the `array` member in a complex type definition.
-     */
-    Array = "array",
-
-    /**
-     * An object aggregation requries the `object` member in a complex type definition.
-     */
-    Object = "object",
-
-    /**
-     * An enumeration aggregation requries the `enumOptions` member in a complex type definition.
-     */
-    Enumeration = "enum",
-
-    /**
-     * This option specifies the type definition is not an aggregation but represents a scalar.
-     * The `scalarType` member in a complex type definition is required if the `aggregation` member
-     * is set to this value.
-     */
-    Scalar = "scalar"
-}
-
-/**
  * An array matcher - used to validate an array against a specific structure.
  */
 export interface NumberMatcherFn {
@@ -199,9 +169,9 @@ export type EnumOptions = (string | number)[];
  */
 export interface ComplexSchema {
     /**
-     * The scalar type if `aggregation` is set to `"scalar"`.
+     * The scalar type, if the schema represents a scalar.
      */
-    scalarType?: SimpleSchema
+    scalar?: SimpleSchema
 
     /**
      * Set this member to true to make the value optional (either defined or undefined or not present).
@@ -214,24 +184,17 @@ export interface ComplexSchema {
     nullable?: boolean
 
     /**
-     * The array type definition if `aggregation` is set to `"array"`.
+     * The array type definition if the schema represents an array.
      */
     array?: ArraySchema
 
     /**
-     * The object type definition if `aggregation` is set to `"object"`.
+     * The object type definition if if the schema represents an object.
      */
     object?: ObjectSchema
 
     /**
-     * The aggregation type.
-     *
-     * @default "scalar"
-     */
-    aggregation?: AggregationType
-
-    /**
-     * The enumeration options if `aggregation` is set to `"enum"`.
+     * The enumeration options if if the schema represents an enumeration.
      */
     enumOptions?: EnumOptions
 
