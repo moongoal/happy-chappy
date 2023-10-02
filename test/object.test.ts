@@ -64,7 +64,7 @@ describe("Object type definitions", () => {
         it("should validate", () => {
             expect(validateObject(
                 {},
-                { members: { "a": { optional: true, scalar: "string" } } }
+                { members: { "a": { optional: true, string: {} } } }
             )).toBeTruthy();
         });
     });

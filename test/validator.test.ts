@@ -9,7 +9,7 @@ describe("validate()", () => {
 
     describe("A valid value with a complex type definition", () => {
         it("should validate", () => {
-            expect(validate("a", { scalar: "string" })).toBeTruthy();
+            expect(validate("a", { string: {} })).toBeTruthy();
         });
     });
 });

@@ -1,7 +1,6 @@
 import { validateArray } from "./array";
 import { validateEnum } from "./enum";
 import { validateObject } from "./object";
-import { validateSimple } from "./simple";
 
 import {
     AggregationType,
@@ -84,14 +83,16 @@ function inferAggregation(schema: ComplexSchema): AggregationType {
     const hasObject = keys.includes("object");
     const hasArray = keys.includes("array");
     const hasEnumeration = keys.includes("enumOptions");
-    const hasScalar = keys.includes("scalar");
-    const aggregationMemberCount = +hasObject + +hasArray + +hasEnumeration + +hasScalar;
+    const hasString = keys.includes("string");
+    const hasNumber = keys.includes("number");
+    const hasBoolean = keys.includes("boolean");
+    const aggregationMemberCount = +hasObject + +hasArray + +hasEnumeration + +hasString + +hasNumber + +hasBoolean;
 
     if(aggregationMemberCount !== 1) {
-        throw new Error("Schema only allows zero or one of \"array\", \"object\", \"enum\", \"scalar\" members to be defined.");
+        throw new Error("Schema only allows one of \"array\", \"object\", \"enum\", \"string\", \"number\", \"boolean\" members to be defined.");
     }
 
-    if(hasScalar) {
+    if(hasString || hasNumber || hasBoolean) {
         return "scalar";
     }
 
@@ -116,30 +117,26 @@ function inferAggregation(schema: ComplexSchema): AggregationType {
  */
 function validateComplexScalar(obj: any, schema: ScalarComplexSchema): boolean {
     const {
-        scalar,
         string,
-        number
+        number,
+        boolean
     } = schema;
-    let scalarValidator =() => true;
+    let scalarValidator = () => true;
 
-    switch(scalar) {
-    case "string":
-        if(string) {
-            scalarValidator = () => validateComplexString(obj, string);
-        }
+    if(string) {
+        scalarValidator = () => (typeof obj === "string" && validateComplexString(obj, string));
+    }
 
-        break;
+    if(number) {
+        scalarValidator = () => (typeof obj === "number" && validateComplexNumber(obj, number));
+    }
 
-    case "number":
-        if(number) {
-            scalarValidator = () => validateComplexNumber(obj, number);
-        }
-
-        break;
+    if(boolean) {
+        scalarValidator = () => (typeof obj === "boolean");
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return validateSimple(obj, scalar!) && scalarValidator();
+    return scalarValidator();
 }
 
 /**

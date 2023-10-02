@@ -202,11 +202,6 @@ export interface EnumComplexSchema<MemberType> extends BaseComplexSchema {
 
 export interface ScalarComplexSchema extends BaseComplexSchema {
     /**
-     * The scalar type, if the schema represents a scalar.
-     */
-    scalar?: SimpleSchema
-
-    /**
      * The string type definition if this type definition represents a string.
      */
     string?: StringSchema
@@ -215,6 +210,12 @@ export interface ScalarComplexSchema extends BaseComplexSchema {
      * The number type definition if this type definition represents a number.
      */
     number?: NumberSchema
+
+    /**
+     * The boolean type definition if this type definition represents a boolean.
+     */
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    boolean?: {}
 }
 
 /**
