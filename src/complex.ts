@@ -18,11 +18,11 @@ export const VALIDATE_ERROR_ENUM_SCHEMA_MISSING = "Enumeration types require enu
  */
 export function validateComplex(obj: any, schema: ComplexSchema): boolean {
     const {
-        arrayDef,
+        array,
         nullable = false,
         optional = false,
         aggregation = "scalar",
-        objectDef,
+        object,
         enumOptions,
         scalarType
     } = schema;
@@ -47,18 +47,18 @@ export function validateComplex(obj: any, schema: ComplexSchema): boolean {
 
     switch(aggregation) {
     case "array":
-        if(!arrayDef) {
+        if(!array) {
             throw new Error(VALIDATE_ERROR_ARRAY_SCHEMA_MISSING);
         }
 
-        return validateArray(obj, arrayDef);
+        return validateArray(obj, array);
 
     case "object":
-        if(!objectDef) {
+        if(!object) {
             throw new Error(VALIDATE_ERROR_OBJECT_SCHEMA_MISSING);
         }
 
-        return validateObject(obj, objectDef);
+        return validateObject(obj, object);
 
     case "enum":
         if(!enumOptions) {
@@ -85,22 +85,22 @@ export function validateComplex(obj: any, schema: ComplexSchema): boolean {
 function validateComplexScalar(obj: any, schema: ComplexSchema): boolean {
     const {
         scalarType,
-        stringDef,
-        numberDef
+        string,
+        number
     } = schema;
     let scalarValidator =() => true;
 
     switch(scalarType) {
     case "string":
-        if(stringDef) {
-            scalarValidator = () => validateComplexString(obj, stringDef);
+        if(string) {
+            scalarValidator = () => validateComplexString(obj, string);
         }
 
         break;
 
     case "number":
-        if(numberDef) {
-            scalarValidator = () => validateComplexNumber(obj, numberDef);
+        if(number) {
+            scalarValidator = () => validateComplexNumber(obj, number);
         }
 
         break;

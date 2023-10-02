@@ -29,25 +29,25 @@ describe("Complex type definitions", () => {
 
     describe("A valid array", () => {
         it("should validate", () => {
-            expect(validateComplex([], { aggregation: "array", arrayDef: { itemType: "number" } })).toBeTruthy();
+            expect(validateComplex([], { aggregation: "array", array: { itemType: "number" } })).toBeTruthy();
         });
     });
 
     describe("An invalid array", () => {
         it("should not validate", () => {
-            expect(validateComplex(["a"], { aggregation: "array", arrayDef: { itemType: "number" } })).toBeFalsy();
+            expect(validateComplex(["a"], { aggregation: "array", array: { itemType: "number" } })).toBeFalsy();
         });
     });
 
     describe("A valid object", () => {
         it("should validate", () => {
-            expect(validateComplex({}, { aggregation: "object", objectDef: { members: {} } })).toBeTruthy();
+            expect(validateComplex({}, { aggregation: "object", object: { members: {} } })).toBeTruthy();
         });
     });
 
     describe("An invalid object", () => {
         it("should not validate", () => {
-            expect(validateComplex({}, { aggregation: "object", objectDef: { members: { "a": "string" } } })).toBeFalsy();
+            expect(validateComplex({}, { aggregation: "object", object: { members: { "a": "string" } } })).toBeFalsy();
         });
     });
 
@@ -127,7 +127,7 @@ describe("Complex type definitions", () => {
         it("should validate", () => {
             expect(validateComplex("I am happy", {
                 scalarType: "string",
-                stringDef: {
+                string: {
                     matcher: /[ ]am[ ]/
                 }
             })).toBeTruthy();
@@ -138,7 +138,7 @@ describe("Complex type definitions", () => {
         it("should not validate", () => {
             expect(validateComplex("I am happy", {
                 scalarType: "string",
-                stringDef: {
+                string: {
                     matcher: /[ ]are[ ]/
                 }
             })).toBeFalsy();
@@ -149,7 +149,7 @@ describe("Complex type definitions", () => {
         it("should validate", () => {
             expect(validateComplex("I am happy", {
                 scalarType: "string",
-                stringDef: {
+                string: {
                     matcher: s => s.includes(" am ")
                 }
             })).toBeTruthy();
@@ -160,7 +160,7 @@ describe("Complex type definitions", () => {
         it("should not validate", () => {
             expect(validateComplex("I am happy", {
                 scalarType: "string",
-                stringDef: {
+                string: {
                     matcher: s => s.includes(" are ")
                 }
             })).toBeFalsy();
@@ -171,7 +171,7 @@ describe("Complex type definitions", () => {
         it("should validate", () => {
             expect(validateComplex("I am happy", {
                 scalarType: "string",
-                stringDef: {
+                string: {
                     matcher: "I am happy"
                 }
             })).toBeTruthy();
@@ -182,7 +182,7 @@ describe("Complex type definitions", () => {
         it("should not validate", () => {
             expect(validateComplex("I am happy", {
                 scalarType: "string",
-                stringDef: {
+                string: {
                     matcher: "I are happy"
                 }
             })).toBeFalsy();
@@ -193,7 +193,7 @@ describe("Complex type definitions", () => {
         it("should validate", () => {
             expect(validateComplex("I am happy", {
                 scalarType: "string",
-                stringDef: {}
+                string: {}
             })).toBeTruthy();
         });
     });
@@ -202,7 +202,7 @@ describe("Complex type definitions", () => {
         it("should validate", () => {
             expect(validateComplex(5, {
                 scalarType: "number",
-                numberDef: {
+                number: {
                     value: 5
                 }
             })).toBeTruthy();
@@ -213,7 +213,7 @@ describe("Complex type definitions", () => {
         it("should not validate", () => {
             expect(validateComplex(4, {
                 scalarType: "number",
-                numberDef: {
+                number: {
                     value: 5
                 }
             })).toBeFalsy();
@@ -224,7 +224,7 @@ describe("Complex type definitions", () => {
         it("should validate", () => {
             expect(validateComplex(5, {
                 scalarType: "number",
-                numberDef: {
+                number: {
                     min: 5
                 }
             })).toBeTruthy();
@@ -235,7 +235,7 @@ describe("Complex type definitions", () => {
         it("should not validate", () => {
             expect(validateComplex(4, {
                 scalarType: "number",
-                numberDef: {
+                number: {
                     min: 5
                 }
             })).toBeFalsy();
@@ -246,7 +246,7 @@ describe("Complex type definitions", () => {
         it("should validate", () => {
             expect(validateComplex(5, {
                 scalarType: "number",
-                numberDef: {
+                number: {
                     max: 5
                 }
             })).toBeTruthy();
@@ -257,7 +257,7 @@ describe("Complex type definitions", () => {
         it("should not validate", () => {
             expect(validateComplex(6, {
                 scalarType: "number",
-                numberDef: {
+                number: {
                     max: 5
                 }
             })).toBeFalsy();
@@ -271,14 +271,14 @@ describe("Complex type definitions", () => {
         it("should validate a valid value", () => {
             expect(validateComplex(MY_NUMBER, {
                 scalarType: "number",
-                numberDef: { value: isMyNumber }
+                number: { value: isMyNumber }
             })).toBeTruthy();
         });
 
         it("should not validate an invalid value", () => {
             expect(validateComplex(MY_NUMBER + 1, {
                 scalarType: "number",
-                numberDef: { value: isMyNumber }
+                number: { value: isMyNumber }
             })).toBeFalsy();
         });
     });
@@ -286,7 +286,7 @@ describe("Complex type definitions", () => {
     describe("When a number's isInteger option is specified", () => {
         const schema: ComplexSchema = {
             scalarType: "number",
-            numberDef: {
+            number: {
                 isInteger: true
             }
         };
@@ -307,7 +307,7 @@ describe("Complex type definitions", () => {
     describe("When a floating point value is validated against a floating point constant", () => {
         const schema: ComplexSchema = {
             scalarType: "number",
-            numberDef: {
+            number: {
                 value: 10.1,
                 epsilon: 1.1
             }

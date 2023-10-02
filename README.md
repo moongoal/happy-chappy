@@ -5,11 +5,11 @@ Happy-chappy is a compact, dependency free JSON object validator package for Jav
 ## Usage
 
 ```typescript
-import { Aggregation, Schema, createValidator, validate } from "happy-chappy";
+import { Schema, createValidator, validate } from "happy-chappy";
 
 const MY_OBJECT_SCHEMA = <Schema>{
     aggregation: "object",
-    objectDef: {
+    object: {
         members: {
             firstField: "number",
 
@@ -101,7 +101,7 @@ const isPersonWithAgeTuple = (v: any[]) => (
 
 const schema: Schema = {
     aggregation: "array",
-    arrayDef: { matcher: isPersonWithAgeTuple }
+    array: { matcher: isPersonWithAgeTuple }
 };
 
 validate(["Dummy", 5], schema) === true;

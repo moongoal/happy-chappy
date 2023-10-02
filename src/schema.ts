@@ -16,12 +16,12 @@ export type AggregationType = "array" | "object" | "enum" | "scalar";
  */
 export enum Aggregation {
     /**
-     * An array aggregation requries the `arrayDef` member in a complex type definition.
+     * An array aggregation requries the `array` member in a complex type definition.
      */
     Array = "array",
 
     /**
-     * An object aggregation requries the `objectDef` member in a complex type definition.
+     * An object aggregation requries the `object` member in a complex type definition.
      */
     Object = "object",
 
@@ -216,12 +216,12 @@ export interface ComplexSchema {
     /**
      * The array type definition if `aggregation` is set to `"array"`.
      */
-    arrayDef?: ArraySchema
+    array?: ArraySchema
 
     /**
      * The object type definition if `aggregation` is set to `"object"`.
      */
-    objectDef?: ObjectSchema
+    object?: ObjectSchema
 
     /**
      * The aggregation type.
@@ -238,12 +238,12 @@ export interface ComplexSchema {
     /**
      * The string type definition if this type definition represents a string.
      */
-    stringDef?: StringSchema
+    string?: StringSchema
 
     /**
      * The number type definition if this type definition represents a number.
      */
-    numberDef?: NumberSchema
+    number?: NumberSchema
 }
 
 /**
