@@ -1,7 +1,7 @@
 import { validateArray } from "./array";
 import { validateEnum } from "./enum";
 import { validateObject } from "./object";
-import { AggregationType, ComplexSchema, NumberSchema, StringSchema } from "./schema";
+import { AggregationType, ArrayComplexSchema, ArraySchema, ComplexSchema, EnumComplexSchema, NumberSchema, ObjectComplexSchema, StringSchema } from "./schema";
 import { validateSimple } from "./simple";
 
 /**
@@ -13,11 +13,8 @@ import { validateSimple } from "./simple";
  */
 export function validateComplex(obj: any, schema: ComplexSchema): boolean {
     const {
-        array,
         nullable = false,
-        optional = false,
-        object,
-        enumOptions
+        optional = false
     } = schema;
 
     const aggregation = inferAggregation(schema);
@@ -37,20 +34,29 @@ export function validateComplex(obj: any, schema: ComplexSchema): boolean {
     }
 
     switch(aggregation) {
-    case "array":
+    case "array": {
+        const { array } = schema as ArrayComplexSchema;
+
         // Rule disabled because aggregation type implies this member being present
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return validateArray(obj, array!);
+    }
 
-    case "object":
+    case "object": {
+        const { object } = schema as ObjectComplexSchema<unknown>;
+
         // Rule disabled because aggregation type implies this member being present
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return validateObject(obj, object!);
+    }
 
-    case "enum":
+    case "enum": {
+        const { enumOptions } = schema as EnumComplexSchema<unknown>;
+
         // Rule disabled because aggregation type implies this member being present
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         return validateEnum(obj, enumOptions!);
+    }
 
     case "scalar":
         return validateComplexScalar(obj, schema);

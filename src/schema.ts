@@ -165,14 +165,9 @@ export interface NumberSchema {
 export type EnumOptions<MemberType = string | number> = (MemberType)[];
 
 /**
- * A complex type definition.
+ * Base common schema.
  */
-export interface ComplexSchema<MemberType = unknown> {
-    /**
-     * The scalar type, if the schema represents a scalar.
-     */
-    scalar?: SimpleSchema
-
+export interface BaseComplexSchema {
     /**
      * Set this member to true to make the value optional (either defined or undefined or not present).
      */
@@ -182,21 +177,34 @@ export interface ComplexSchema<MemberType = unknown> {
      * Set this member to true to make the value nullable.
      */
     nullable?: boolean
+}
 
+export interface ArrayComplexSchema extends BaseComplexSchema {
     /**
      * The array type definition if the schema represents an array.
      */
     array?: ArraySchema
+}
 
+export interface ObjectComplexSchema<MemberType> extends BaseComplexSchema {
     /**
      * The object type definition if if the schema represents an object.
      */
     object?: ObjectSchema<MemberType>
+}
 
+export interface EnumComplexSchema<MemberType> extends BaseComplexSchema {
     /**
      * The enumeration options if if the schema represents an enumeration.
      */
     enumOptions?: EnumOptions<MemberType>
+}
+
+export interface ScalarComplexSchema extends BaseComplexSchema {
+    /**
+     * The scalar type, if the schema represents a scalar.
+     */
+    scalar?: SimpleSchema
 
     /**
      * The string type definition if this type definition represents a string.
@@ -208,6 +216,16 @@ export interface ComplexSchema<MemberType = unknown> {
      */
     number?: NumberSchema
 }
+
+/**
+ * A complex type definition.
+ */
+export type ComplexSchema<MemberType = unknown> = (
+    ScalarComplexSchema
+    | EnumComplexSchema<MemberType>
+    | ObjectComplexSchema<MemberType>
+    | ArrayComplexSchema
+);
 
 /**
  * A type definition or schema.
