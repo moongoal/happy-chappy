@@ -169,7 +169,7 @@ export interface NumberSchema {
 /**
  * Enumeration validation options.
  */
-export type EnumOptions<MemberType = string | number> = (MemberType)[];
+export type EnumOptions<MemberType = string | number> = readonly (MemberType)[];
 
 /**
  * Base common schema.
