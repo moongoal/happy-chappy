@@ -1,11 +1,11 @@
 import {
     validateComplex,
-    VALIDATE_ERROR_ARRAY_TYPEDEF_MISSING,
-    VALIDATE_ERROR_ENUM_TYPEDEF_MISSING,
-    VALIDATE_ERROR_OBJECT_TYPEDEF_MISSING,
-    VALIDATE_ERROR_SCALAR_TYPEDEF_MISSING
+    VALIDATE_ERROR_ARRAY_SCHEMA_MISSING,
+    VALIDATE_ERROR_ENUM_SCHEMA_MISSING,
+    VALIDATE_ERROR_OBJECT_SCHEMA_MISSING,
+    VALIDATE_ERROR_SCALAR_SCHEMA_MISSING
 } from "../src/complex";
-import { Aggregation, ComplexTypeDef } from "../src/schema";
+import { Aggregation, ComplexSchema } from "../src/schema";
 
 describe("Complex type definitions", () => {
     describe("A valid value", () => {
@@ -284,7 +284,7 @@ describe("Complex type definitions", () => {
     });
 
     describe("When a number's isInteger option is specified", () => {
-        const schema: ComplexTypeDef = {
+        const schema: ComplexSchema = {
             scalarType: "number",
             numberDef: {
                 isInteger: true
@@ -305,7 +305,7 @@ describe("Complex type definitions", () => {
     });
 
     describe("When a floating point value is validated against a floating point constant", () => {
-        const schema: ComplexTypeDef = {
+        const schema: ComplexSchema = {
             scalarType: "number",
             numberDef: {
                 value: 10.1,
@@ -328,25 +328,25 @@ describe("Complex type definitions", () => {
 
     describe("A scalar type with no scalar type definition", () => {
         it("should throw", () => {
-            expect(() => validateComplex(0, {})).toThrowError(VALIDATE_ERROR_SCALAR_TYPEDEF_MISSING);
+            expect(() => validateComplex(0, {})).toThrowError(VALIDATE_ERROR_SCALAR_SCHEMA_MISSING);
         });
     });
 
     describe("An object type with no object type definition", () => {
         it("should throw", () => {
-            expect(() => validateComplex({}, { aggregation: Aggregation.Object })).toThrowError(VALIDATE_ERROR_OBJECT_TYPEDEF_MISSING);
+            expect(() => validateComplex({}, { aggregation: Aggregation.Object })).toThrowError(VALIDATE_ERROR_OBJECT_SCHEMA_MISSING);
         });
     });
 
     describe("An array type with no array type definition", () => {
         it("should throw", () => {
-            expect(() => validateComplex({}, { aggregation: Aggregation.Array })).toThrowError(VALIDATE_ERROR_ARRAY_TYPEDEF_MISSING);
+            expect(() => validateComplex({}, { aggregation: Aggregation.Array })).toThrowError(VALIDATE_ERROR_ARRAY_SCHEMA_MISSING);
         });
     });
 
     describe("An enumeration type with no enumeration type definition", () => {
         it("should throw", () => {
-            expect(() => validateComplex({}, { aggregation: Aggregation.Enumeration })).toThrowError(VALIDATE_ERROR_ENUM_TYPEDEF_MISSING);
+            expect(() => validateComplex({}, { aggregation: Aggregation.Enumeration })).toThrowError(VALIDATE_ERROR_ENUM_SCHEMA_MISSING);
         });
     });
 });

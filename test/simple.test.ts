@@ -1,4 +1,4 @@
-import { SimpleTypeDef } from "../src/schema";
+import { SimpleSchema } from "../src/schema";
 import { validateSimple } from "../src/simple";
 
 describe("Simple type definitions", () => {
@@ -7,7 +7,7 @@ describe("Simple type definitions", () => {
         { type: "boolean", value: false },
         { type: "number", value: 0 }
     ])("A valid $type object with a simple type definition should validate", ({ type, value }) => {
-        expect(validateSimple(value, type as SimpleTypeDef)).toBeTruthy();
+        expect(validateSimple(value, type as SimpleSchema)).toBeTruthy();
     });
 
     test.each([
@@ -18,6 +18,6 @@ describe("Simple type definitions", () => {
         { type: "number", value: true },
         { type: "number", value: "dummy" }
     ])("An invalid $type object with a simple type definition should not validate", ({ type, value }) => {
-        expect(validateSimple(value, type as SimpleTypeDef)).toBeFalsy();
+        expect(validateSimple(value, type as SimpleSchema)).toBeFalsy();
     });
 });

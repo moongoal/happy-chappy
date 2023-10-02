@@ -1,13 +1,13 @@
 import { validateArray } from "./array";
 import { validateEnum } from "./enum";
 import { validateObject } from "./object";
-import { Aggregation, ComplexTypeDef, NumberTypeDef, StringTypeDef } from "./schema";
+import { Aggregation, ComplexSchema, NumberSchema, StringSchema } from "./schema";
 import { validateSimple } from "./simple";
 
-export const VALIDATE_ERROR_SCALAR_TYPEDEF_MISSING = "Scalar types require scalar type definition.";
-export const VALIDATE_ERROR_ARRAY_TYPEDEF_MISSING = "Array types require array definition.";
-export const VALIDATE_ERROR_OBJECT_TYPEDEF_MISSING = "Object types require object definition.";
-export const VALIDATE_ERROR_ENUM_TYPEDEF_MISSING = "Enumeration types require enumeration definition.";
+export const VALIDATE_ERROR_SCALAR_SCHEMA_MISSING = "Scalar types require scalar type definition.";
+export const VALIDATE_ERROR_ARRAY_SCHEMA_MISSING = "Array types require array definition.";
+export const VALIDATE_ERROR_OBJECT_SCHEMA_MISSING = "Object types require object definition.";
+export const VALIDATE_ERROR_ENUM_SCHEMA_MISSING = "Enumeration types require enumeration definition.";
 
 /**
  * Validate a value using a complex schema.
@@ -16,7 +16,7 @@ export const VALIDATE_ERROR_ENUM_TYPEDEF_MISSING = "Enumeration types require en
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function validateComplex(obj: any, schema: ComplexTypeDef): boolean {
+export function validateComplex(obj: any, schema: ComplexSchema): boolean {
     const {
         arrayDef,
         nullable = false,
@@ -28,7 +28,7 @@ export function validateComplex(obj: any, schema: ComplexTypeDef): boolean {
     } = schema;
 
     if(aggregation === Aggregation.Scalar && !scalarType) {
-        throw new Error(VALIDATE_ERROR_SCALAR_TYPEDEF_MISSING);
+        throw new Error(VALIDATE_ERROR_SCALAR_SCHEMA_MISSING);
     }
 
     if(
@@ -48,21 +48,21 @@ export function validateComplex(obj: any, schema: ComplexTypeDef): boolean {
     switch(aggregation) {
     case Aggregation.Array:
         if(!arrayDef) {
-            throw new Error(VALIDATE_ERROR_ARRAY_TYPEDEF_MISSING);
+            throw new Error(VALIDATE_ERROR_ARRAY_SCHEMA_MISSING);
         }
 
         return validateArray(obj, arrayDef);
 
     case Aggregation.Object:
         if(!objectDef) {
-            throw new Error(VALIDATE_ERROR_OBJECT_TYPEDEF_MISSING);
+            throw new Error(VALIDATE_ERROR_OBJECT_SCHEMA_MISSING);
         }
 
         return validateObject(obj, objectDef);
 
     case Aggregation.Enumeration:
         if(!enumOptions) {
-            throw new Error(VALIDATE_ERROR_ENUM_TYPEDEF_MISSING);
+            throw new Error(VALIDATE_ERROR_ENUM_SCHEMA_MISSING);
         }
 
         return validateEnum(obj, enumOptions);
@@ -80,7 +80,7 @@ export function validateComplex(obj: any, schema: ComplexTypeDef): boolean {
  * @param schema The schema to test against.
  * @returns True if the value matches the schema, false if not.
  */
-function validateComplexScalar(obj: any, schema: ComplexTypeDef): boolean {
+function validateComplexScalar(obj: any, schema: ComplexSchema): boolean {
     const {
         scalarType,
         stringOptions,
@@ -117,7 +117,7 @@ function validateComplexScalar(obj: any, schema: ComplexTypeDef): boolean {
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-function validateComplexString(obj: string, schema: StringTypeDef): boolean {
+function validateComplexString(obj: string, schema: StringSchema): boolean {
     const { matcher } = schema;
 
     if(matcher) {
@@ -142,7 +142,7 @@ function validateComplexString(obj: string, schema: StringTypeDef): boolean {
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-function validateComplexNumber(obj: number, schema: NumberTypeDef): boolean {
+function validateComplexNumber(obj: number, schema: NumberSchema): boolean {
     const {
         max,
         min,

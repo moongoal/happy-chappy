@@ -1,7 +1,7 @@
 /**
  * A simple type definition.
  */
-export type SimpleTypeDef = "string" | "number" | "boolean";
+export type SimpleSchema = "string" | "number" | "boolean";
 
 /**
  * An enumeration indicating the type of aggregation a type definition represents.
@@ -55,11 +55,11 @@ export interface ArrayMatcherFn {
 /**
  * An array type definition.
  */
-export interface ArrayTypeDef {
+export interface ArraySchema {
     /**
      * The type definition for the items contained in the array.
      */
-    itemType?: TypeDef
+    itemType?: Schema
 
     /**
      * Specify this member if the array must be of a specific length.
@@ -86,7 +86,7 @@ export interface ArrayTypeDef {
  * A map of member type definitions for a serializable object.
  */
 interface ObjectMemberMap {
-    [name: string | number]: TypeDef
+    [name: string | number]: Schema
 }
 
 /**
@@ -105,7 +105,7 @@ export interface ObjectMatcherFn {
  *
  * Here object doesn't mean "any JavaScript object", rather this indicates a serializable object.
  */
-export interface ObjectTypeDef {
+export interface ObjectSchema {
     /**
      * The member type definitions.
      */
@@ -139,7 +139,7 @@ export interface StringMatcherFn {
 /**
  * String validation options.
  *
- * @deprecated The name of this type is on a path for deprecation, use `StringTypeDef` instead.
+ * @deprecated The name of this type is on a path for deprecation, use `StringSchema` instead.
  */
 export interface StringOptions {
     /**
@@ -151,12 +151,12 @@ export interface StringOptions {
 /**
  * String validation options.
  */
-export type StringTypeDef = StringOptions;
+export type StringSchema = StringOptions;
 
 /**
  * Number validation options.
  *
- * @deprecated The name of this type is on a path for deprecation, use `NumberTypeDef` instead.
+ * @deprecated The name of this type is on a path for deprecation, use `NumberSchema` instead.
  */
 export interface NumberOptions {
     /**
@@ -193,7 +193,7 @@ export interface NumberOptions {
 /**
  * Number validation options.
  */
-export type NumberTypeDef = NumberOptions;
+export type NumberSchema = NumberOptions;
 
 /**
  * Enumeration validation options.
@@ -203,11 +203,11 @@ export type EnumOptions = (string | number)[];
 /**
  * A complex type definition.
  */
-export interface ComplexTypeDef {
+export interface ComplexSchema {
     /**
      * The scalar type if `aggregation` is set to `Aggregation.Scalar`.
      */
-    scalarType?: SimpleTypeDef
+    scalarType?: SimpleSchema
 
     /**
      * Set this member to true to make the value optional (either defined or undefined or not present).
@@ -222,12 +222,12 @@ export interface ComplexTypeDef {
     /**
      * The array type definition if `aggregation` is set to `Aggregation.Array`.
      */
-    arrayDef?: ArrayTypeDef
+    arrayDef?: ArraySchema
 
     /**
      * The object type definition if `aggregation` is set to `Aggregation.Object`.
      */
-    objectDef?: ObjectTypeDef
+    objectDef?: ObjectSchema
 
     /**
      * The aggregation type.
@@ -246,27 +246,27 @@ export interface ComplexTypeDef {
      *
      * @deprecated This member is on a path for deprecation. Use the equivalent `stringDef` instead.
      */
-    stringOptions?: StringTypeDef
+    stringOptions?: StringSchema
 
     /**
      * The string type definition if this type definition represents a string.
      */
-    stringDef?: StringTypeDef
+    stringDef?: StringSchema
 
     /**
      * The number type definition if this type definition represents a number.
      *
      * @deprecated This member is on a path for deprecation. Use the equivalent `numberDef` instead.
      */
-    numberOptions?: NumberTypeDef
+    numberOptions?: NumberSchema
 
     /**
      * The number type definition if this type definition represents a number.
      */
-    numberDef?: NumberTypeDef
+    numberDef?: NumberSchema
 }
 
 /**
  * A type definition or schema.
  */
-export type TypeDef = SimpleTypeDef | ComplexTypeDef;
+export type Schema = SimpleSchema | ComplexSchema;

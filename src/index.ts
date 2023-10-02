@@ -1,7 +1,7 @@
 import { validateComplex } from "./complex";
-import { ComplexTypeDef, SimpleTypeDef, TypeDef } from "./schema";
+import { ComplexSchema, SimpleSchema, Schema } from "./schema";
 import { validateSimple } from "./simple";
-import { isTypeDefSimple } from "./utils";
+import { isSchemaSimple } from "./utils";
 
 export * from "./schema";
 
@@ -26,7 +26,7 @@ export interface ValidatorFn {
  * @param schema The schema the validator function will validate against.
  * @returns A new validator function for the given schema.
  */
-export function createValidator(schema: TypeDef): ValidatorFn {
+export function createValidator(schema: Schema): ValidatorFn {
     return (obj: any): boolean => validate(obj, schema);
 }
 
@@ -37,8 +37,8 @@ export function createValidator(schema: TypeDef): ValidatorFn {
  * @param schema The schema to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function validate(obj: any, schema: TypeDef): boolean {
-    return isTypeDefSimple(schema)
-        ? validateSimple(obj, schema as SimpleTypeDef)
-        : validateComplex(obj, schema as ComplexTypeDef);
+export function validate(obj: any, schema: Schema): boolean {
+    return isSchemaSimple(schema)
+        ? validateSimple(obj, schema as SimpleSchema)
+        : validateComplex(obj, schema as ComplexSchema);
 }

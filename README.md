@@ -5,9 +5,9 @@ Happy-chappy is a compact, dependency free JSON object validator package for Jav
 ## Usage
 
 ```typescript
-import { Aggregation, TypeDef, createValidator, validate } from "happy-chappy";
+import { Aggregation, Schema, createValidator, validate } from "happy-chappy";
 
-const MY_OBJECT_SCHEMA = <TypeDef>{
+const MY_OBJECT_SCHEMA = <Schema>{
     aggregation: Aggregation.Object,
     objectDef: {
         members: {
@@ -99,7 +99,7 @@ const isPersonWithAgeTuple = (v: any[]) => (
     && Number.isInteger(v[1])
 ); // Enforces [Name: string, Age: integer]
 
-const schema: TypeDef = {
+const schema: Schema = {
     aggregation: Aggregation.Array,
     arrayDef: { matcher: isPersonWithAgeTuple }
 };
@@ -112,8 +112,8 @@ validate([5, "Dummy"], schema) === false;
 
 Please note `stringOptions` and `numberOptions` type definition members are deprecated and will be removed in the next major version along with
 their interfaces: `StringOptions` and `NumberOptions`.
-When updating the package, ensure you update any reference to the new naming convention: `stringDef`, `numberDef`, `StringTypeDef`
-and `NumberTypeDef` respectively.
+When updating the package, ensure you update any reference to the new naming convention: `stringDef`, `numberDef`, `StringSchema`
+and `NumberSchema` respectively.
 
 ## License
 

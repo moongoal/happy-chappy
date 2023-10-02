@@ -1,4 +1,4 @@
-import { ObjectTypeDef } from "./schema";
+import { ObjectSchema } from "./schema";
 import { validate } from ".";
 
 /**
@@ -8,7 +8,7 @@ import { validate } from ".";
  * @param schema The object definition to validate against.
  * @returns True if the value matches the schema, false if not.
  */
-export function validateObject(obj: any, schema: ObjectTypeDef): boolean {
+export function validateObject(obj: any, schema: ObjectSchema): boolean {
     if(typeof obj !== "object" || obj.constructor !== Object) {
         return false;
     }
