@@ -119,8 +119,8 @@ const MY_REQUEST_SCHEMA: Schema<MyRequest> = {
     object: {
         members: {
             a: { ... },
-            c: { ... },
-            d: { ... }, // TypeScript error!
+            b: { ... },
+            c: { ... }, // TypeScript error!
         }
     }
 };
@@ -141,7 +141,7 @@ const MY_REQUEST_SCHEMA: Schema<MyEnum> = {
 ```
 
 ```typescript
-type MyEnum = "first" | "second" | "third";
+type MyEnum = "first" | "second";
 
 const MY_REQUEST_SCHEMA: Schema<MyEnum> = {
     enumOptions: [

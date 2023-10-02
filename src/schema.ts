@@ -212,4 +212,4 @@ export interface ComplexSchema<MemberType = unknown> {
 /**
  * A type definition or schema.
  */
-export type Schema = SimpleSchema | ComplexSchema;
+export type Schema<MemberType = unknown> = SimpleSchema | ComplexSchema<MemberType>;
