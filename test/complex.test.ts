@@ -5,7 +5,7 @@ import {
     VALIDATE_ERROR_OBJECT_SCHEMA_MISSING,
     VALIDATE_ERROR_SCALAR_SCHEMA_MISSING
 } from "../src/complex";
-import { Aggregation, ComplexSchema } from "../src/schema";
+import { Aggregation, AggregationType, ComplexSchema } from "../src/schema";
 
 describe("Complex type definitions", () => {
     describe("A valid value", () => {
@@ -347,6 +347,14 @@ describe("Complex type definitions", () => {
     describe("An enumeration type with no enumeration type definition", () => {
         it("should throw", () => {
             expect(() => validateComplex({}, { aggregation: Aggregation.Enumeration })).toThrowError(VALIDATE_ERROR_ENUM_SCHEMA_MISSING);
+        });
+    });
+
+    describe("An invalid aggregation type", () => {
+        it("should throw", () => {
+            expect(
+                () => validateComplex([], { aggregation: "invalid" as AggregationType })
+            ).toThrowError(/Unknown aggregation type/);
         });
     });
 });

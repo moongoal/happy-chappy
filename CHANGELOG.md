@@ -4,3 +4,4 @@
 
 * Renamed TypeDef -> Schema
 * Removed deprecated settings
+* `Aggregation` is now a string literal type

@@ -46,30 +46,32 @@ export function validateComplex(obj: any, schema: ComplexSchema): boolean {
     }
 
     switch(aggregation) {
-    case Aggregation.Array:
+    case "array":
         if(!arrayDef) {
             throw new Error(VALIDATE_ERROR_ARRAY_SCHEMA_MISSING);
         }
 
         return validateArray(obj, arrayDef);
 
-    case Aggregation.Object:
+    case "object":
         if(!objectDef) {
             throw new Error(VALIDATE_ERROR_OBJECT_SCHEMA_MISSING);
         }
 
         return validateObject(obj, objectDef);
 
-    case Aggregation.Enumeration:
+    case "enum":
         if(!enumOptions) {
             throw new Error(VALIDATE_ERROR_ENUM_SCHEMA_MISSING);
         }
 
         return validateEnum(obj, enumOptions);
 
-    case Aggregation.Scalar:
+    case "scalar":
         return validateComplexScalar(obj, schema);
     }
+
+    throw new Error(`Unknown aggregation type value "${aggregation}".`);
 }
 
 /**

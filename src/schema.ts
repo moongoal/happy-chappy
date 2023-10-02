@@ -6,28 +6,33 @@ export type SimpleSchema = "string" | "number" | "boolean";
 /**
  * An enumeration indicating the type of aggregation a type definition represents.
  */
+export type AggregationType = "array" | "object" | "enum" | "scalar";
+
+/**
+ * An enumeration indicating the type of aggregation a type definition represents.
+ */
 export enum Aggregation {
     /**
      * An array aggregation requries the `arrayDef` member in a complex type definition.
      */
-    Array,
+    Array = "array",
 
     /**
      * An object aggregation requries the `objectDef` member in a complex type definition.
      */
-    Object,
+    Object = "object",
 
     /**
      * An enumeration aggregation requries the `enumOptions` member in a complex type definition.
      */
-    Enumeration,
+    Enumeration = "enum",
 
     /**
      * This option specifies the type definition is not an aggregation but represents a scalar.
      * The `scalarType` member in a complex type definition is required if the `aggregation` member
      * is set to this value.
      */
-    Scalar
+    Scalar = "scalar"
 }
 
 /**
@@ -218,9 +223,9 @@ export interface ComplexSchema {
     /**
      * The aggregation type.
      *
-     * @default Aggregation.Scalar
+     * @default "scalar"
      */
-    aggregation?: Aggregation
+    aggregation?: AggregationType
 
     /**
      * The enumeration options if `aggregation` is set to `Aggregation.Enumeration`.
